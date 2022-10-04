@@ -2,7 +2,7 @@
 Invoice generator for sales company
 
 ## Database
-#### Builtin:
+#### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859188812529737/unknown.png">
 
 Uno de los apartados más importantes de toda aplicación es su estructura de base de datos, que sentará los cimientos de nuestro desarrollo.
@@ -28,7 +28,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 
 
 ## Backend 
-#### Builtin:
+#### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859452898488420/unknown.png"><img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859481323290664/unknown.png">
 
 ### Used NuGet Packages:
@@ -41,5 +41,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 
 
 ## Frontend 
-#### Builtin:
+#### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859522498756708/unknown.png">
+<img src="https://cdn.discordapp.com/attachments/975450807833079871/1026861343598444635/unknown.png">
+
