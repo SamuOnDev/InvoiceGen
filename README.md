@@ -1,6 +1,8 @@
 # InvoiceGen
 Invoice generator for sales company
 
+
+<!-- Database -->
 ## Database
 #### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859188812529737/unknown.png">
@@ -27,6 +29,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 </p>
 
 
+<!-- Backend -->
 ## Backend 
 #### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859452898488420/unknown.png"><img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859481323290664/unknown.png">
@@ -40,7 +43,25 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - Microsoft.IdentityModel.JsonWebTokens
 
 
+<!-- Frontend -->
 ## Frontend 
 #### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859522498756708/unknown.png"><img src="https://cdn.discordapp.com/attachments/975450807833079871/1026861343598444635/unknown.png">
 
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Samuel G. - [LinedIn](https://www.linkedin.com/in/samuel-galindo/)
+
+Project Link: [https://github.com/SamuOnDev/InvoiceGen](https://github.com/SamuOnDev/InvoiceGen)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
