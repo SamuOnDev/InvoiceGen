@@ -42,6 +42,5 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 
 ## Frontend 
 #### Built With:
-<img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859522498756708/unknown.png">
-<img src="https://cdn.discordapp.com/attachments/975450807833079871/1026861343598444635/unknown.png">
+<img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859522498756708/unknown.png"><img src="https://cdn.discordapp.com/attachments/975450807833079871/1026861343598444635/unknown.png">
 
