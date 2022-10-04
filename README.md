@@ -63,7 +63,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Samuel G. - [LinedIn](https://www.linkedin.com/in/samuel-galindo/)
+Samuel G. - [LinkedIn](https://www.linkedin.com/in/samuel-galindo/)
 
 Project Link: [https://github.com/SamuOnDev/InvoiceGen](https://github.com/SamuOnDev/InvoiceGen)
 
