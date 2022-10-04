@@ -3,7 +3,7 @@
 ## Database
 
 <p align="center">
-  <img src ="https://cdn.discordapp.com/attachments/975450807833079871/1026816968982016030/Captura.PNG">
+  <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026816968982016030/Captura.PNG" style="width: 500px">
 </p>
 
 ## Backend 
