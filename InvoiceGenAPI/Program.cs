@@ -1,4 +1,13 @@
+using InvoiceGenAPI.DataAcces;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// SQL Server Connection
+const string CONNECTIONNAME = "InvoiceGenDB";
+var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME);
+
+builder.Services.AddDbContext<InvoiceGenDBContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 
