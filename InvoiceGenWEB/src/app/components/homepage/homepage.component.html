@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-secondary bg-gradient px-3 fixed-top bg-opacity-25">
+    <div class="container">
+        <a class="navbar-brand mb-0 h1 text-dark" href="#">
+            <img src="../../../assets/img/brand-logo.svg" width="35" height="30" alt="Logo" class="d-inline-block align-text-top">
+            Invoice Generator
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li *ngIf="!isUserAuthenticated() && !isRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="registerPage(true)">Register</a>
+                </li>
+                <li *ngIf="!isUserAuthenticated() && isRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="registerPage(false)">Login</a>
+                </li>
+                <!-- <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="nav-link" routerLink="/userboard">User Board</a>
+                </li> -->
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-success mx-1" (click)="logOut()">Create Invoice</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="logOut()">Companies</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="logOut()">Invoices</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-danger mx-1" (click)="logOut()">Logout</a>
+                </li>
+                <button type="button" class="btn btn-dark position-absolute top-5 end-0 mx-5">Dark</button>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div *ngIf="!isUserAuthenticated() && !isRegister()">
+        <login></login>
+    </div>
+    <div *ngIf="!isUserAuthenticated() && isRegister()">
+        <register></register>
+    </div>
+    <div *ngIf="isUserAuthenticated()" style="color: green;">
+        <h2>
+            Welcome to the URL Shortener Application
+        </h2>
+        <userboard></userboard>
+    </div>
+</div>

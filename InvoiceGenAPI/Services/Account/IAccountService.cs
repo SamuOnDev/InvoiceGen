@@ -6,6 +6,6 @@ namespace InvoiceGenAPI.Services.Account
     {
         bool CheckIfUserNameExist(string userName);
         bool CheckIfEmailExist(string userEmail);
-        User RegisterUserToDb(User user);
+        bool RegisterUserToDb(User user);
     }
 }

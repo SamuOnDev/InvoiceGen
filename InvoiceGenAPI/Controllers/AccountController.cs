@@ -26,30 +26,28 @@ namespace InvoiceGenAPI.Controllers
         }
 
         [HttpPost]
-        [Route("CreateUser")]
+        [Route("AccountCreate")]
         public IActionResult PostUser(User user)
         {
-            if (_accountService.CheckIfUserNameExist(user.UserName))
+            if (_accountService.CheckIfUserNameExist(user.UserNickName))
             {
-                return BadRequest("UserName already in Use");
+                return BadRequest("Nickname already in Use");
             }
             else if (_accountService.CheckIfEmailExist(user.UserEmail))
             {
                 return BadRequest("Email already in Use");
             }
 
-            if (_accountService.RegisterUserToDb(user) is not null)
+            if (!_accountService.RegisterUserToDb(user))
             {
-                Console.WriteLine("Usuario Creado");
-                return Ok(user);
+                return BadRequest("Error creating user");
+
             }
-            else
-            {
-                return BadRequest("Something went Wrong");
-            }
+
+            return Ok();
         }
 
-        [HttpPost("login")]
+        [HttpPost("AccountLogin")]
         public IActionResult GetToken(UserLogin userLogin)
         {
             try
@@ -72,8 +70,8 @@ namespace InvoiceGenAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [HttpGet] // TODO: Mejorar logica y poderes administrador. 
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         public IActionResult GetUserList()
         {
             var searchAllUsers = from user in _context.Users select user;

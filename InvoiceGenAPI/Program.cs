@@ -3,6 +3,7 @@ using InvoiceGenAPI.Services.Account;
 using InvoiceGenAPI.Services.JwtToken;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddJwtTokenServices(builder.Configuration);
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("UserOnlyPolicy", policy => policy.RequireClaim("UserOnly", "User1"));
+    options.AddPolicy("UserOnlyPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
 });
 
 // Add services to the container.
@@ -55,6 +56,16 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,5 +80,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("CorsPolicy");
 
 app.Run();
