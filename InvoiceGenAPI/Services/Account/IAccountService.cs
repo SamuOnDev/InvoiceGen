@@ -1,4 +1,5 @@
 ﻿using InvoiceGenAPI.Models.DataModel;
+using InvoiceGenAPI.Models.JwtModel;
 
 namespace InvoiceGenAPI.Services.Account
 {
@@ -7,5 +8,7 @@ namespace InvoiceGenAPI.Services.Account
         bool CheckIfUserNameExist(string userName);
         bool CheckIfEmailExist(string userEmail);
         bool RegisterUserToDb(User user);
+
+        UserToken UserLogin(UserLogin userLogin);
     }
 }

@@ -50,24 +50,13 @@ namespace InvoiceGenAPI.Controllers
         [HttpPost("AccountLogin")]
         public IActionResult GetToken(UserLogin userLogin)
         {
-            try
+            UserToken token = _accountService.UserLogin(userLogin);
+
+            if (token is null)
             {
-                User? userDb = (from user in _context.Users
-                                where user.UserEmail == userLogin.UserEmail && user.UserPassword == userLogin.UserPassword
-                                select user).FirstOrDefault();
-
-                if (userDb is null)
-                {
-                    return BadRequest("Wrong Credentials");
-                }
-
-                return Ok(JwtHelpers.GenTokenKey(userDb, _jwtSettings));
-
+                return BadRequest("Wrong credentials");
             }
-            catch (Exception ex)
-            {
-                throw new Exception("GetToken Error", ex);
-            }
+            return Ok(token);
         }
 
         [HttpGet] // TODO: Mejorar logica y poderes administrador. 
