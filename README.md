@@ -37,6 +37,12 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 #### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859452898488420/unknown.png"><img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859481323290664/unknown.png">
 
+- Registrar usuario
+- Login usuario
+- JWT Bearer para auth
+- RBAC User roles
+
+
 ### Used NuGet Packages:
 - EntityFrameworkCore.SqlServer
 - EntityFrameworkCore.Tools
@@ -50,6 +56,10 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 ## Frontend 
 #### Built With:
 <img src="https://cdn.discordapp.com/attachments/975450807833079871/1026859522498756708/unknown.png"><img src="https://cdn.discordapp.com/attachments/975450807833079871/1026861343598444635/unknown.png">
+
+- Registro de Usuarios
+- Login de Usuarios
+- Panel de control Usuario y Administrador
 
 <!-- LICENSE -->
 ## License
