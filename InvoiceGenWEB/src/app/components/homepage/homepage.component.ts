@@ -40,5 +40,7 @@ export class HomepageComponent  {
 
   public logOut = () => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userid");
   }
 }

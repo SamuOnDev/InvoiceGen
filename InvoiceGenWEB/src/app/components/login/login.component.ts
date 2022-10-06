@@ -1,43 +1,49 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import configurl from '../../../assets/config/config.json'
+import { UserLogin } from 'src/app/models/userlogin/userlogin';
+import { AccountService } from 'src/app/services/account/account.service';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
+
   invalidLogin?: boolean;
+  responseLogin: any;
 
   url = configurl.apiServer.url + '/api/account/';
 
-  constructor(private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService,
-    private toastr: ToastrService) { }
+  constructor(private router: Router, private jwtHelper : JwtHelperService, private toastr: ToastrService, private accountService: AccountService) { }
 
-  public login = (form: NgForm) => {
 
-    const credentials = JSON.stringify(form.value);
-    
-    this.http.post(this.url +"login", credentials, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-      const token = (<any>response).token;
-      localStorage.setItem("jwt", token);
-      const userName = (<any>response).userName;
-      localStorage.setItem("username", userName);
-      const userId = (<any>response).userId;
-      localStorage.setItem("userid", userId);
-      this.invalidLogin = false;
-      this.toastr.success("Logged In successfully");
-      //this.router.navigate(["/userboard"]);
-    }, err => {
-      this.invalidLogin = true;
+  Login(form: NgForm) {
+    const userLogin: UserLogin = new UserLogin();
+    userLogin.UserEmail = form.value.useremail;
+    userLogin.UserPassword = form.value.userpassword;
+
+    console.log(userLogin);
+
+    this.accountService.LoginUser(userLogin).subscribe({
+      next: (response) => {
+      this.responseLogin = response
+      console.log(this.responseLogin);
+      }, 
+      error: (err: any) => {
+        console.log(err.error)
+        this.invalidLogin = true;
+      },
+      complete: () => {
+        localStorage.setItem("jwt", this.responseLogin.token);
+        localStorage.setItem("username", this.responseLogin.userName);
+        localStorage.setItem("userid", this.responseLogin.userId);
+        this.invalidLogin = false;
+        this.toastr.success('Login success');
+      }
     });
   }
 

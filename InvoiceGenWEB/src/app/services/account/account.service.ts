@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserDto } from 'src/app/models/userdto/userdto';
+import { UserLogin } from 'src/app/models/userlogin/userlogin';
 
 import configurl from '../../../assets/config/config.json'; 
 
@@ -17,6 +18,11 @@ export class AccountService {
   RegisterUser(userDto: UserDto): Observable<UserDto> {
     const httpHeaders = { headers:new HttpHeaders({'Content-Type': 'application/json'}) };
     return this.http.post<UserDto>(this.url + 'AccountCreate', userDto, httpHeaders);
+  }
+
+  LoginUser(userLogin: UserLogin): Observable<any> {
+    const httpHeaders = { headers:new HttpHeaders({'Content-Type': 'application/json'}) };
+    return this.http.post<UserDto>(this.url + 'AccountLogin', userLogin, httpHeaders);
   }
   
 }
