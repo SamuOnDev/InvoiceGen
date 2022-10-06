@@ -1,6 +1,7 @@
 using InvoiceGenAPI.DataAcces;
 using InvoiceGenAPI.Services.Account;
 using InvoiceGenAPI.Services.JwtToken;
+using InvoiceGenAPI.Services.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -14,6 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString(CONNECTIONNAME)
 builder.Services.AddDbContext<InvoiceGenDBContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 // JWT Autorization
 builder.Services.AddJwtTokenServices(builder.Configuration);

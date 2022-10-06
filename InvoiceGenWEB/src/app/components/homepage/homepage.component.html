@@ -11,22 +11,29 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li *ngIf="!isUserAuthenticated() && !isRegister()" class="nav-item">
-                    <a class="btn btn-primary mx-1" (click)="registerPage(true)">Register</a>
+                    <a class="btn btn-primary mx-1" (click)="registerPage()">Register</a>
                 </li>
                 <li *ngIf="!isUserAuthenticated() && isRegister()" class="nav-item">
-                    <a class="btn btn-primary mx-1" (click)="registerPage(false)">Login</a>
+                    <a class="btn btn-primary mx-1" (click)="registerPage()">Login</a>
                 </li>
-                <!-- <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="nav-link" routerLink="/userboard">User Board</a>
-                </li> -->
+                
                 <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-success mx-1" (click)="logOut()">Create Invoice</a>
+                    <a class="btn btn-success mx-1" >Create Invoice</a>
                 </li>
                 <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" (click)="logOut()">Companies</a>
+                    <a class="btn btn-info mx-1" (click)="homePanel()">Home</a>
                 </li>
                 <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" (click)="logOut()">Invoices</a>
+                    <a class="btn btn-info mx-1" >Companies</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" >Invoices</a>
+                </li>
+                <li *ngIf="isUserAuthenticated() && isUserAdmin()" class="nav-item">
+                    <a class="btn btn-info mx-1">Users</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-warning mx-1" (click)="userPanel()">User Panel</a>
                 </li>
                 <li *ngIf="isUserAuthenticated()" class="nav-item">
                     <a class="btn btn-danger mx-1" (click)="logOut()">Logout</a>
@@ -43,10 +50,11 @@
     <div *ngIf="!isUserAuthenticated() && isRegister()">
         <register></register>
     </div>
-    <div *ngIf="isUserAuthenticated()" style="color: green;">
-        <h2>
-            Welcome to the URL Shortener Application
-        </h2>
-        <userboard></userboard>
+    <div *ngIf="isUserAuthenticated() && !isUserPanel()">
+        <!-- <userboard></userboard> -->
+        <userpanel></userpanel>
+    </div>
+    <div *ngIf="isUserAuthenticated() && isUserPanel()">
+        <userpanel></userpanel>
     </div>
 </div>

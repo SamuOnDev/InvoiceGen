@@ -13,19 +13,27 @@ export class HomepageComponent  {
   constructor(private jwtHelper: JwtHelperService, private router: Router) {
   }
 
-  isRegisterPage: boolean = false;
+  RegisterPage: boolean = false;
+  UserPanel: boolean = false;
 
   isRegister() {
-    if (this.isRegisterPage) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.RegisterPage;
   }
 
-  registerPage(itIs: boolean) {
-    this.isRegisterPage = itIs;
+  isUserPanel(){
+    return this.UserPanel;
+  }
+
+  registerPage() {
+    const res = this.RegisterPage ? (this.RegisterPage = false, true) : (this.RegisterPage = true, false)    
+  }
+
+  homePanel(){
+    this.UserPanel = false;
+  }
+
+  userPanel() {
+    const res = this.UserPanel = true;
   }
 
   isUserAuthenticated() {
@@ -38,9 +46,20 @@ export class HomepageComponent  {
     }
   }
 
+  isUserAdmin() {
+    const role = Number(localStorage.getItem("userrole"));
+    if (role == 1) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   public logOut = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("username");
     localStorage.removeItem("userid");
+    localStorage.removeItem("userrole")
   }
 }

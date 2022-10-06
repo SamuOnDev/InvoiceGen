@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AccountService } from 'src/app/services/account/account.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { UserDto } from 'src/app/models/userdto/userdto';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private router: Router, private accountService: AccountService, private toastr: ToastrService) { }
+  constructor(private router: Router, private userService: UserService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
     userDto.UserPhone = form.value.userphone;
     userDto.UserPassword = form.value.userpassword;
 
-    this.accountService.RegisterUser(userDto).subscribe({
+    this.userService.RegisterUser(userDto).subscribe({
       complete: () => {
         form.reset();
         this.toastr.success(userDto.UserName + ' account created successfully');

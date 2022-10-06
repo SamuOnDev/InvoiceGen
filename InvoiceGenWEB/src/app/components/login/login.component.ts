@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import configurl from '../../../assets/config/config.json'
 import { UserLogin } from 'src/app/models/userlogin/userlogin';
-import { AccountService } from 'src/app/services/account/account.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'login',
@@ -18,7 +18,7 @@ export class LoginComponent {
 
   url = configurl.apiServer.url + '/api/account/';
 
-  constructor(private router: Router, private jwtHelper : JwtHelperService, private toastr: ToastrService, private accountService: AccountService) { }
+  constructor(private router: Router, private jwtHelper : JwtHelperService, private toastr: ToastrService, private authService: AuthService) { }
 
 
   Login(form: NgForm) {
@@ -28,7 +28,7 @@ export class LoginComponent {
 
     console.log(userLogin);
 
-    this.accountService.LoginUser(userLogin).subscribe({
+    this.authService.LoginUser(userLogin).subscribe({
       next: (response) => {
       this.responseLogin = response
       console.log(this.responseLogin);
@@ -41,6 +41,7 @@ export class LoginComponent {
         localStorage.setItem("jwt", this.responseLogin.token);
         localStorage.setItem("username", this.responseLogin.userName);
         localStorage.setItem("userid", this.responseLogin.userId);
+        localStorage.setItem("userrole", this.responseLogin.userRole);
         this.invalidLogin = false;
         this.toastr.success('Login success');
       }
