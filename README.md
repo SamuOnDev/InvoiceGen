@@ -41,6 +41,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - Login usuario
 - JWT Bearer para auth
 - RBAC User roles
+- CRUD Users
 
 
 ### Used NuGet Packages:
@@ -60,7 +61,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - Registro de Usuarios
 - Login de Usuarios
 - Panel de control Usuario ver y modificar datos propios
-- Panel de control Administrador ver y modificar todos los datos
+- Panel de control Administrador ver y modificar todos los datos de los usuarios
 
 
 <!-- LICENSE -->
