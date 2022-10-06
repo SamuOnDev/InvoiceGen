@@ -59,7 +59,9 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 
 - Registro de Usuarios
 - Login de Usuarios
-- Panel de control Usuario y Administrador
+- Panel de control Usuario ver y modificar datos propios
+- Panel de control Administrador ver y modificar todos los datos
+
 
 <!-- LICENSE -->
 ## License
