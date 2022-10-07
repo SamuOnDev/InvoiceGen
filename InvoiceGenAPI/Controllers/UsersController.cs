@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using InvoiceGenAPI.DataAcces;
 using InvoiceGenAPI.Models.DataModel;
 using InvoiceGenAPI.Services.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using System.Security.Claims;
 
 namespace InvoiceGenAPI.Controllers
 {
@@ -35,6 +39,7 @@ namespace InvoiceGenAPI.Controllers
         // GET: api/Users/5
         [HttpGet]
         [Route("GetUser/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
             User? user = await _usersService.GetUserByIdAsync(id);
@@ -48,40 +53,29 @@ namespace InvoiceGenAPI.Controllers
         }
 
         // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        [HttpPut]
+        [Route("UpdateUser/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<IActionResult> PutUser(int id, UserEdit user)
         {
-            // TODO: Implementar logica para edicion de usuario
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
+            var passCheck = (from userCheck in _context.Users
+                           where userCheck.UserId.Equals(id) && userCheck.UserPassword.Equals(user.UserPassword)
+                           select userCheck).FirstOrDefault();
 
-            _context.Entry(user).State = EntityState.Modified;
+            if (passCheck is null) { return BadRequest("Wrong password"); }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            bool? isUpdated = await _usersService.UpdateUserAsync(id, user);
 
-            return NoContent();
+            if (isUpdated is null) { return NotFound("User not found"); }
+            if (isUpdated is false) { return BadRequest("User not exist"); }
+
+            return Ok();
         }
 
         // POST: api/Users
         [HttpPost]
         [Route("CreateUser")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public IActionResult PostUser(User user)
         {
             if (_usersService.CheckIfUserNameExist(user.UserNickName))
@@ -103,24 +97,26 @@ namespace InvoiceGenAPI.Controllers
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteUser/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+
+            if (tokenId != id)
             {
-                return NotFound();
+                return BadRequest("Users not match");
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            bool? deleted = await _usersService.DeleteUserByIdAsync(id);
 
-            return NoContent();
-        }
+            if (deleted is false)
+            {
+                return BadRequest("Something went wrong user not deleted");
+            }
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
+            return Ok();
         }
     }
 }

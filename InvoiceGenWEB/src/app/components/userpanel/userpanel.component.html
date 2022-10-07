@@ -1,6 +1,8 @@
 <div class="userpanel">
     <h1>User Panel</h1>
-    <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
+    <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+    <br />
+    <ul *ngIf="IsEdit()" class="list-group list-group-flush">
         <li class="list-group-item">
             <form>
                 <div class="form-group row">
@@ -54,15 +56,17 @@
         <li class="list-group-item"></li>
     </ul>
 
-    <ul *ngIf="IsEdit()" class="list-group list-group-flush">
+    <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
         <li class="list-group-item">
             <form>
-                <div class="form-group row">
-                    <label for="userNickname" class="col-sm-2 col-form-label">Nickname</label>
-                    <div class="col-sm-10">
-                        <input type="text" readonly class="form-control" id="userNickname" value="{{ userInfo.userNickName}}">
+                <fieldset disabled>
+                    <div class="form-group row">
+                        <label for="userNickname" class="col-sm-2 col-form-label">Nickname</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control" id="disabledTextInput userNickname" value="{{ userInfo.userNickName }}">
+                        </div>
                     </div>
-                </div>
+                </fieldset>
             </form>
         </li>
         <li class="list-group-item">
@@ -70,7 +74,7 @@
                 <div class="form-group row">
                     <label for="userName" class="col-sm-2 col-form-label">Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="userName" value="{{ userInfo.userName}}">
+                        <input type="text" class="form-control" id="userName" [(ngModel)]="userInfo.userName" [ngModelOptions]="{standalone: true}" value="{{ userInfo.userName}}">
                     </div>
                 </div>
             </form>
@@ -80,19 +84,21 @@
                 <div class="form-group row">
                     <label for="userLastname" class="col-sm-2 col-form-label">Lastname:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="userLastname" value="{{ userInfo.userLast}}">
+                        <input type="text" class="form-control" id="userLastname" [(ngModel)]="userInfo.userLast" [ngModelOptions]="{standalone: true}" value="{{ userInfo.userLast}}">
                     </div>
                 </div>
             </form>
         </li>
         <li class="list-group-item">
             <form>
-                <div class="form-group row">
-                    <label for="userEmail" class="col-sm-2 col-form-label">Email:</label>
-                    <div class="col-sm-10">
-                        <input type="text" readonly class="form-control" id="userEmail" value="{{ userInfo.userEmail}}">
+                <fieldset disabled>
+                    <div class="form-group row">
+                        <label for="userEmail" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control" id="disabledTextInput userEmail" value="{{ userInfo.userEmail}}">
+                        </div>
                     </div>
-                </div>
+                </fieldset>
             </form>
         </li>
         <li class="list-group-item">
@@ -100,7 +106,7 @@
                 <div class="form-group row">
                     <label for="userPhone" class="col-sm-2 col-form-label">Phone:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="userPhone" value="{{ userInfo.userPhone}}">
+                        <input type="text" class="form-control" id="userPhone" [(ngModel)]="userInfo.userPhone" [ngModelOptions]="{standalone: true}" value="{{ userInfo.userPhone }}">
                     </div>
                 </div>
             </form>
@@ -110,7 +116,8 @@
                 <div class="form-group row">
                     <label for="userOldPassword" class="col-sm-2 col-form-label">Old Password:</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="userOldPassword" placeholder="Password">
+                        <input type="password" class="form-control" id="userOldPassword" [(ngModel)]="OldPassword" placeholder="Password"
+                        (keyup)='NeedPassword();' [ngModelOptions]="{standalone: true}">
                     </div>
                 </div>
             </form>
@@ -118,9 +125,9 @@
         <li class="list-group-item">
             <form>
                 <div class="form-group row">
-                    <label for="userNewPassword" class="col-sm-2 col-form-label">New Password:</label>
+                    <label for="userNewPassword" class="col-sm-2 col-form-label">New Password:<span [innerHTML]="htmlStr" [ngStyle]="myStyles"></span></label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" [ngClass]="{'is-valid' : validated == true, 'is-invalid' : validated == false, '': validated == null}"  id="userNewPassword" [(ngModel)]="NewPassword" required placeholder="New Password" (keyup)='check();' [ngModelOptions]="{standalone: true}">
+                        <input type="password" class="form-control" [ngClass]="{'is-valid' : validated == true, 'is-invalid' : validated == false, '': validated == null}"  id="userNewPassword" [(ngModel)]="userInfo.userPassword"  placeholder="New Password" (keyup)='Check(); NeedPassword();' [ngModelOptions]="{standalone: true}" >
                     </div>
                 </div>
             </form>
@@ -130,7 +137,7 @@
                 <div class="form-group row">
                     <label for="userconfirmPassword" class="col-sm-2 col-form-label">Confirm Password:</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" [ngClass]="{'is-valid' : validated == true, 'is-invalid' : validated == false, '': validated == null}" id="userConfirmPassword" [(ngModel)]="ConfirmPassword" placeholder="Confirm Password" (keyup)='check();' [ngModelOptions]="{standalone: true}">
+                        <input type="password" class="form-control" [ngClass]="{'is-valid' : validated == true, 'is-invalid' : validated == false, '': validated == null}" id="userConfirmPassword" [(ngModel)]="ConfirmPassword" placeholder="Confirm Password" (keyup)='Check(); NeedPassword();' [ngModelOptions]="{standalone: true}">
                     </div>
                 </div>
             </form>
@@ -139,14 +146,19 @@
     </ul>
 
     <ul class="list-inline mr-auto ">
-        <li *ngIf="!IsEdit()" (click)="EditUser()" class="list-inline-item">
-            <a class="btn btn-secondary mx-1 btn-sm">Edit</a>
+        <li *ngIf="IsEdit()" class="list-inline-item">
+            <a class="btn btn-secondary mx-1 btn-sm" (click)="EditUser()">Edit</a>
         </li>
-        <li  *ngIf="IsEdit()" (click)="SendUser()" class="list-inline-item">
-            <a class="btn btn-success mx-1 btn-sm">Submit</a>
+        <li  *ngIf="!IsEdit()" class="list-inline-item">
+            <button class="btn btn-success mx-1 btn-sm" type="submit" [disabled]="!needPassword" (click)="SendUser()">Submit</button>
         </li>
-        <li  *ngIf="IsEdit()" (click)="EditUser()" class="list-inline-item">
-            <a class="btn btn-danger mx-1 btn-sm">Cancel</a>
+        <li  *ngIf="!IsEdit()" class="list-inline-item">
+            <a class="btn btn-warning mx-1 btn-sm" (click)="EditUser()">Cancel</a>
         </li>
+        <div class="d-grid gap-2 d-md-flex mt-4 justify-content-md-end ">
+            <li  *ngIf="!IsEdit()" class="list-inline-item">
+                <a class="btn btn-outline-danger mx-1 btn-sm" (click)="DeleteUser()">Delete Account</a>
+            </li>
+        </div>
     </ul>
 </div>

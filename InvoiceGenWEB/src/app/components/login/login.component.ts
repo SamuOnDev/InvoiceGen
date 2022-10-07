@@ -26,12 +26,9 @@ export class LoginComponent {
     userLogin.UserEmail = form.value.useremail;
     userLogin.UserPassword = form.value.userpassword;
 
-    console.log(userLogin);
-
     this.authService.LoginUser(userLogin).subscribe({
       next: (response) => {
       this.responseLogin = response
-      console.log(this.responseLogin);
       }, 
       error: (err: any) => {
         console.log(err.error)

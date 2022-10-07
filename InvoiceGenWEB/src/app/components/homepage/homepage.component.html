@@ -1,13 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-secondary bg-gradient px-3 fixed-top bg-opacity-25">
+<nav class="navbar navbar-expand-lg bg-gradient px-3 fixed-top">
     <div class="container">
         <a class="navbar-brand mb-0 h1 text-dark" href="#">
             <img src="../../../assets/img/brand-logo.svg" width="35" height="30" alt="Logo" class="d-inline-block align-text-top">
             Invoice Generator
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle menu">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="collapse" id="navbarToggleExternalContent">
+            <ul class="navbar-nav mr-auto gap-2">
+                <li *ngIf="!isUserAuthenticated() && !isRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="registerPage()">Register</a>
+                </li>
+                <li *ngIf="!isUserAuthenticated() && isRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="registerPage()">Login</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-success mx-1" >Create Invoice</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="homePanel()">Home</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" >Companies</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" >Invoices</a>
+                </li>
+                <li *ngIf="isUserAuthenticated() && isUserAdmin()" class="nav-item">
+                    <a class="btn btn-info mx-1">Users</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-warning mx-1" (click)="userPanel()">User Panel</a>
+                </li>
+                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-danger mx-1" (click)="logOut()">Logout</a>
+                </li>
+            </ul>
+        </div>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li *ngIf="!isUserAuthenticated() && !isRegister()" class="nav-item">

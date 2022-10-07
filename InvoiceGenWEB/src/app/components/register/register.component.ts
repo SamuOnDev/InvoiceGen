@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
     userDto.UserPhone = form.value.userphone;
     userDto.UserPassword = form.value.userpassword;
 
-    this.userService.RegisterUser(userDto).subscribe({
+    this.userService.CreateUser(userDto).subscribe({
       complete: () => {
         form.reset();
         this.toastr.success(userDto.UserName + ' account created successfully');
