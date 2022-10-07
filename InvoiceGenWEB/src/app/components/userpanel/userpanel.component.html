@@ -2,7 +2,7 @@
     <h1>User Panel</h1>
     <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
     <br />
-    <ul *ngIf="IsEdit()" class="list-group list-group-flush">
+    <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
         <li class="list-group-item">
             <form>
                 <div class="form-group row">
@@ -56,7 +56,7 @@
         <li class="list-group-item"></li>
     </ul>
 
-    <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
+    <ul *ngIf="IsEdit()" class="list-group list-group-flush">
         <li class="list-group-item">
             <form>
                 <fieldset disabled>
@@ -146,17 +146,17 @@
     </ul>
 
     <ul class="list-inline mr-auto ">
-        <li *ngIf="IsEdit()" class="list-inline-item">
+        <li *ngIf="!IsEdit()" class="list-inline-item">
             <a class="btn btn-secondary mx-1 btn-sm" (click)="EditUser()">Edit</a>
         </li>
-        <li  *ngIf="!IsEdit()" class="list-inline-item">
+        <li  *ngIf="IsEdit()" class="list-inline-item">
             <button class="btn btn-success mx-1 btn-sm" type="submit" [disabled]="!needPassword" (click)="SendUser()">Submit</button>
         </li>
-        <li  *ngIf="!IsEdit()" class="list-inline-item">
+        <li  *ngIf="IsEdit()" class="list-inline-item">
             <a class="btn btn-warning mx-1 btn-sm" (click)="EditUser()">Cancel</a>
         </li>
         <div class="d-grid gap-2 d-md-flex mt-4 justify-content-md-end ">
-            <li  *ngIf="!IsEdit()" class="list-inline-item">
+            <li  *ngIf="IsEdit()" class="list-inline-item">
                 <a class="btn btn-outline-danger mx-1 btn-sm" (click)="DeleteUser()">Delete Account</a>
             </li>
         </div>
