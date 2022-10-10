@@ -150,7 +150,7 @@
             <a class="btn btn-secondary mx-1 btn-sm" (click)="EditUser()">Edit</a>
         </li>
         <li  *ngIf="IsEdit()" class="list-inline-item">
-            <button class="btn btn-success mx-1 btn-sm" type="submit" [disabled]="!needPassword" (click)="SendUser()">Submit</button>
+            <button class="btn btn-success mx-1 btn-sm" type="submit" [disabled]="!needPassword" (click)="SendUser()">Submit Changes</button>
         </li>
         <li  *ngIf="IsEdit()" class="list-inline-item">
             <a class="btn btn-warning mx-1 btn-sm" (click)="EditUser()">Cancel</a>

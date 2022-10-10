@@ -30,14 +30,5 @@ namespace InvoiceGenAPI.Controllers
             }
             return Ok(token);
         }
-
-        [HttpGet] // TODO: Mejorar logica y poderes administrador. 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
-        public IActionResult GetUserList()
-        {
-            var searchAllUsers = from user in _context.Users select user;
-
-            return Ok(searchAllUsers);
-        }
     }
 }

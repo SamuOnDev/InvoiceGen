@@ -28,14 +28,6 @@ namespace InvoiceGenAPI.Controllers
             _usersService = usersService;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        [Route("GetUsers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
         // GET: api/Users/5
         [HttpGet]
         [Route("GetUser/{id}")]

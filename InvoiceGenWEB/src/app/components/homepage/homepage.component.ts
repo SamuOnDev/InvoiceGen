@@ -13,30 +13,72 @@ export class HomepageComponent  {
   constructor(private jwtHelper: JwtHelperService, private router: Router) {
   }
 
-  RegisterPage: boolean = false;
-  UserPanel: boolean = false;
+  registerPage: boolean = false;
+  companiesPanel: boolean = false;
+  invoicesPanel: boolean =false;
+  adminPanel: boolean = false;
+  userPanel: boolean = false;
+  
 
-  isRegister() {
-    return this.RegisterPage;
+  IsRegister() {
+    return this.registerPage;
+  }
+  
+  IsCompaniesPanel(){
+    return this.companiesPanel;
   }
 
-  isUserPanel(){
-    return this.UserPanel;
+  IsInvoicesPanel(){
+    return this.invoicesPanel;
+  }
+  
+  IsAdminPanel(){
+    return this.adminPanel;
   }
 
-  registerPage() {
-    const res = this.RegisterPage ? (this.RegisterPage = false, true) : (this.RegisterPage = true, false)    
+  IsUserPanel(){
+    return this.userPanel;
   }
 
-  homePanel(){
-    this.UserPanel = false;
+  RegisterPage() {
+    const res = this.registerPage ? (this.registerPage = false, true) : (this.registerPage = true, false)    
   }
 
-  userPanel() {
-    const res = this.UserPanel = true;
+  HomePanel(){
+    this.companiesPanel = false;
+    this.invoicesPanel = false;
+    this.adminPanel = false;
+    this.userPanel = false;
   }
 
-  isUserAuthenticated() {
+  CompaniesPanel(){
+    this.companiesPanel = true;
+    this.invoicesPanel = false;
+    this.adminPanel = false;
+    this.userPanel = false;
+  }
+
+  InvoicesPanel(){
+    this.companiesPanel = false;
+    this.invoicesPanel = true;
+    this.adminPanel = false;
+    this.userPanel = false;
+  }
+
+  AdminPanel(){
+    this.companiesPanel = false;
+    this.invoicesPanel = false;
+    this.adminPanel = true;
+    this.userPanel = false;
+  }
+  UserPanel() {
+    this.companiesPanel = false;
+    this.invoicesPanel = false;
+    this.adminPanel = false;
+    this.userPanel = true;
+  }
+    
+  IsUserAuthenticated() {
     const token = localStorage.getItem("jwt");
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return true;
@@ -46,7 +88,7 @@ export class HomepageComponent  {
     }
   }
 
-  isUserAdmin() {
+  IsUserAdmin() {
     const role = Number(localStorage.getItem("userrole"));
     if (role == 1) {
       return true;
@@ -56,7 +98,7 @@ export class HomepageComponent  {
     }
   }
 
-  public logOut = () => {
+  public LogOut = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("username");
     localStorage.removeItem("userid");

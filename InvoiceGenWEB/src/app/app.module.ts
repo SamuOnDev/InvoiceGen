@@ -17,6 +17,9 @@ import { UserboardComponent } from './components/userboard/userboard.component';
 
 import { AuthGuard } from './guards/auth-guard.service';
 import { UserpanelComponent } from './components/userpanel/userpanel.component';
+import { UseradministratorComponent } from './components/useradministrator/useradministrator.component';
+import { CompaniesComponent } from './components/companies/companies.component';
+import { InvoicesComponent } from './components/invoices/invoices.component';
 
 
 //all components routes
@@ -36,7 +39,10 @@ export function tokenGetter() {
     RegisterComponent,
     HomepageComponent,
     UserboardComponent,
-    UserpanelComponent
+    UserpanelComponent,
+    UseradministratorComponent,
+    CompaniesComponent,
+    InvoicesComponent
   ],
   imports: [
     BrowserModule,

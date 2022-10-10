@@ -1,20 +1,17 @@
 ﻿using InvoiceGenAPI.DataAcces;
 using InvoiceGenAPI.Models.DataModel;
-using InvoiceGenAPI.Models.JwtModel;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 
 namespace InvoiceGenAPI.Services.Users
 {
     public class UsersService : IUsersService
     {
         private readonly InvoiceGenDBContext _context;
-        private readonly JwtSettings _jwtSettings;
 
-        public UsersService(InvoiceGenDBContext context, JwtSettings jwtSettings)
+        public UsersService(InvoiceGenDBContext context)
         {
             _context = context;
-            _jwtSettings = jwtSettings;
         }
 
 
@@ -82,8 +79,12 @@ namespace InvoiceGenAPI.Services.Users
 
             checkId.UserName = user.UserName;
             checkId.UserLast = user.UserLast;
-            checkId.UserPassword = user.UserNewPassword;
             checkId.UserPhone = user.UserPhone;
+
+            if (user.UserNewPassword != string.Empty)
+            {
+                checkId.UserPassword = user.UserNewPassword;
+            }
             
             try
             {

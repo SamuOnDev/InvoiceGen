@@ -1,5 +1,7 @@
 using InvoiceGenAPI.DataAcces;
 using InvoiceGenAPI.Services.Account;
+using InvoiceGenAPI.Services.Administrator;
+using InvoiceGenAPI.Services.Companies;
 using InvoiceGenAPI.Services.JwtToken;
 using InvoiceGenAPI.Services.Users;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<InvoiceGenDBContext>(options => options.UseSqlServ
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IAdministratorService, AdministratorService>();
+builder.Services.AddScoped<ICompaniesService, CompaniesService>();
 
 // JWT Autorization
 builder.Services.AddJwtTokenServices(builder.Configuration);

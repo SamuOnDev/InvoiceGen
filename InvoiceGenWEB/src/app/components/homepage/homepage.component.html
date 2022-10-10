@@ -9,64 +9,63 @@
         </button>
         <div class="collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav mr-auto gap-2">
-                <li *ngIf="!isUserAuthenticated() && !isRegister()" class="nav-item">
-                    <a class="btn btn-primary mx-1" (click)="registerPage()">Register</a>
+                <li *ngIf="!IsUserAuthenticated() && !IsRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="RegisterPage()">Register</a>
                 </li>
-                <li *ngIf="!isUserAuthenticated() && isRegister()" class="nav-item">
-                    <a class="btn btn-primary mx-1" (click)="registerPage()">Login</a>
+                <li *ngIf="!IsUserAuthenticated() && IsRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="RegisterPage()">Login</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
                     <a class="btn btn-success mx-1" >Create Invoice</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" (click)="homePanel()">Home</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="HomePanel()">Home</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" >Companies</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="CompaniesPanel()">Companies</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" >Invoices</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="InvoicesPanel()">Invoices</a>
                 </li>
-                <li *ngIf="isUserAuthenticated() && isUserAdmin()" class="nav-item">
-                    <a class="btn btn-info mx-1">Users</a>
+                <li *ngIf="IsUserAuthenticated() && IsUserAdmin()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="AdminPanel()">Users</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-warning mx-1" (click)="userPanel()">User Panel</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-warning mx-1" (click)="UserPanel()">User Panel</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-danger mx-1" (click)="logOut()">Logout</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-danger mx-1" (click)="LogOut()">Logout</a>
                 </li>
             </ul>
         </div>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
-                <li *ngIf="!isUserAuthenticated() && !isRegister()" class="nav-item">
-                    <a class="btn btn-primary mx-1" (click)="registerPage()">Register</a>
+                <li *ngIf="!IsUserAuthenticated() && !IsRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="RegisterPage()">Register</a>
                 </li>
-                <li *ngIf="!isUserAuthenticated() && isRegister()" class="nav-item">
-                    <a class="btn btn-primary mx-1" (click)="registerPage()">Login</a>
+                <li *ngIf="!IsUserAuthenticated() && IsRegister()" class="nav-item">
+                    <a class="btn btn-primary mx-1" (click)="RegisterPage()">Login</a>
                 </li>
-                
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
                     <a class="btn btn-success mx-1" >Create Invoice</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" (click)="homePanel()">Home</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="HomePanel()">Home</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" >Companies</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="CompaniesPanel()">Companies</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-info mx-1" >Invoices</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="InvoicesPanel()">Invoices</a>
                 </li>
-                <li *ngIf="isUserAuthenticated() && isUserAdmin()" class="nav-item">
-                    <a class="btn btn-info mx-1">Users</a>
+                <li *ngIf="IsUserAuthenticated() && IsUserAdmin()" class="nav-item">
+                    <a class="btn btn-info mx-1" (click)="AdminPanel()">Users</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-warning mx-1" (click)="userPanel()">User Panel</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-warning mx-1" (click)="UserPanel()">User Panel</a>
                 </li>
-                <li *ngIf="isUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-danger mx-1" (click)="logOut()">Logout</a>
+                <li *ngIf="IsUserAuthenticated()" class="nav-item">
+                    <a class="btn btn-danger mx-1" (click)="LogOut()">Logout</a>
                 </li>
                 <button type="button" class="btn btn-dark position-absolute top-5 end-0 mx-5">Dark</button>
             </ul>
@@ -74,17 +73,26 @@
     </div>
 </nav>
 <div class="container">
-    <div *ngIf="!isUserAuthenticated() && !isRegister()">
+    <div *ngIf="!IsUserAuthenticated() && !IsRegister()">
         <login></login>
     </div>
-    <div *ngIf="!isUserAuthenticated() && isRegister()">
+    <div *ngIf="!IsUserAuthenticated() && IsRegister()">
         <register></register>
     </div>
-    <div *ngIf="isUserAuthenticated() && !isUserPanel()">
+    <div *ngIf="IsUserAuthenticated() && !IsUserPanel() && !IsAdminPanel() && !IsCompaniesPanel() && !IsInvoicesPanel()">
         <!-- <userboard></userboard> -->
-        <userpanel></userpanel>
+        <companies></companies>
     </div>
-    <div *ngIf="isUserAuthenticated() && isUserPanel()">
+    <div *ngIf="IsUserAuthenticated() && IsCompaniesPanel()">
+        <companies></companies>
+    </div>
+    <div *ngIf="IsUserAuthenticated() && IsInvoicesPanel()">
+        <invoices></invoices>
+    </div>
+    <div *ngIf="IsUserAuthenticated() && IsAdminPanel()">
+        <useradministrator></useradministrator>
+    </div>
+    <div *ngIf="IsUserAuthenticated() && IsUserPanel()">
         <userpanel></userpanel>
     </div>
 </div>

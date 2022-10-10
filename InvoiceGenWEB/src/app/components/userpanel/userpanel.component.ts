@@ -78,7 +78,7 @@ export class UserpanelComponent implements OnInit {
     this.userService.UpdateUser(userId, userToEdit, userToken).subscribe({
       error: (err: any) => {
         console.log(err.error)
-        this.toastr.error(err.error)
+        this.toastr.error("Error al editar el usuario")
         this.invalidLogin = true;
       },
       complete: () => {
@@ -127,7 +127,7 @@ export class UserpanelComponent implements OnInit {
         },
         complete: () => {
           this.toastr.success('User Deleted Successfully');
-          this.homeComp.logOut();
+          this.homeComp.LogOut();
         }
       });
     }
