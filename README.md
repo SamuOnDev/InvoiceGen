@@ -62,7 +62,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - Login de Usuarios
 - Panel de control Usuario ver y modificar datos propios
 - Panel de control Administrador ver y modificar todos los datos de los usuarios
-- Panel de comañias en menu de usuario
+- Panel de compañias en menu de usuario
 
 
 <!-- LICENSE -->
