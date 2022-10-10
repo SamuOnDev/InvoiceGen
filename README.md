@@ -42,7 +42,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - JWT Bearer para auth
 - RBAC User roles
 - CRUD Users
-
+- CRUS Company
 
 ### Used NuGet Packages:
 - EntityFrameworkCore.SqlServer
@@ -62,6 +62,7 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - Login de Usuarios
 - Panel de control Usuario ver y modificar datos propios
 - Panel de control Administrador ver y modificar todos los datos de los usuarios
+- Panel de comañias en menu de usuario
 
 
 <!-- LICENSE -->
