@@ -37,10 +37,14 @@ namespace InvoiceGenAPI.Controllers
 
 
         // GET: api/Companies/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetCompany(int id)
+        [HttpGet]
+        [Route("GetCompany/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<ActionResult<Company>> GetCompanyById(int id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+
+            var company = _companiesService.GetCompanyById(id, tokenId);
 
             if (company == null)
             {
@@ -52,33 +56,19 @@ namespace InvoiceGenAPI.Controllers
 
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(int id, Company company)
+        [HttpPut]
+        [Route("UpdateCompany")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<IActionResult> PutCompany(Company company)
         {
-            if (id != company.CompanyId)
-            {
-                return BadRequest();
-            }
+            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
-            _context.Entry(company).State = EntityState.Modified;
+            bool? updatedSucces = await _companiesService.UpdateCompanyByIdAsync(company, tokenId);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (updatedSucces is null) { return NotFound("Company not found"); }
+            if (updatedSucces is false) { return BadRequest("Company not exist"); }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Companies
@@ -99,24 +89,26 @@ namespace InvoiceGenAPI.Controllers
         }
 
         // DELETE: api/Companies/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompany(int id)
+        [HttpDelete]
+        [Route("DeleteCompany/{companyId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<IActionResult> DeleteCompany(int companyId)
         {
-            var company = await _context.Companies.FindAsync(id);
-            if (company == null)
+            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+
+            Console.WriteLine(companyId);
+            bool? deleted = await _companiesService.DeleteCompanyByIdAsync(companyId, tokenId);
+
+            if (deleted is false)
             {
-                return NotFound();
+                return BadRequest("Something went wrong company not deleted");
+            }else if(deleted is null){
+                return NotFound("Company not found");
             }
 
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok();
         }
 
-        private bool CompanyExists(int id)
-        {
-            return _context.Companies.Any(e => e.CompanyId == id);
-        }
+        
     }
 }

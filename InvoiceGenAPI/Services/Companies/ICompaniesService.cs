@@ -6,5 +6,8 @@ namespace InvoiceGenAPI.Services.Companies
     {
         bool RegisterCompanyToDb(Company company, int tokenId);
         List<Company> GetCompaniesByUserId(int userId);
+        Company GetCompanyById(int companyId, int tokenId);
+        Task<bool?> UpdateCompanyByIdAsync(Company company, int userId);
+        Task<bool?> DeleteCompanyByIdAsync(int companyId, int userId);
     }
 }

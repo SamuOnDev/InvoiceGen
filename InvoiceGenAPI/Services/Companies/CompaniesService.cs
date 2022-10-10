@@ -1,6 +1,7 @@
 ﻿using InvoiceGenAPI.DataAcces;
 using InvoiceGenAPI.Models.DataModel;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace InvoiceGenAPI.Services.Companies
 {
@@ -12,7 +13,7 @@ namespace InvoiceGenAPI.Services.Companies
         {
             _context = context;
         }
-
+                
         public List<Company> GetCompaniesByUserId(int userId)
         {
             List<Company> companiesByUserId = (from company in _context.Companies
@@ -20,6 +21,20 @@ namespace InvoiceGenAPI.Services.Companies
                                                select company).ToList();
 
             return companiesByUserId;
+        }
+
+        public Company GetCompanyById(int companyId, int tokenId)
+        {
+            Company? companyFound = (from company in _context.Companies
+                               where company.UserId == tokenId && company.CompanyId == companyId
+                               select company).FirstOrDefault();
+
+            if (companyFound == null)
+            {
+                return null;
+            }
+            
+            return companyFound;
         }
 
         public bool RegisterCompanyToDb(Company company, int tokenId)
@@ -38,6 +53,72 @@ namespace InvoiceGenAPI.Services.Companies
             {
                 return false;
             }
+        }
+
+        public async Task<bool?> UpdateCompanyByIdAsync(Company company, int userId)
+        {
+            Company? companyToUpdate = (from compCheck in _context.Companies
+                             where compCheck.CompanyId.Equals(company.CompanyId) && compCheck.UserId.Equals(userId)
+                             select compCheck).FirstOrDefault();
+
+            if (companyToUpdate is null) { return null; }
+
+            companyToUpdate.CompanyId = company.CompanyId;
+            companyToUpdate.CompanyName = company.CompanyName;
+            companyToUpdate.CompanyCif = company.CompanyCif;
+            companyToUpdate.CompanyEmail = company.CompanyEmail;
+            companyToUpdate.CompanyPhone = company.CompanyPhone;
+            companyToUpdate.CompanyAddress = company.CompanyAddress;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CompanyExists(company.CompanyId))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool?> DeleteCompanyByIdAsync(int companyId, int userId)
+        {
+            //Company? companyToDelete = (from compCheck in _context.Companies
+            //                            where compCheck.CompanyId.Equals(companyId) && compCheck.UserId.Equals(userId)
+            //                            select compCheck).FirstOrDefault();
+
+            Company? companyToDelete = _context.Companies.Find(companyId);
+
+            if (companyToDelete is null)
+            {
+                return null;
+            }
+
+            if (companyToDelete.UserId == userId)
+            {
+                _context.Companies.Remove(companyToDelete);
+
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+
+            
+        }
+
+        private bool CompanyExists(int id)
+        {
+            return _context.Companies.Any(e => e.CompanyId == id);
         }
     }
 }

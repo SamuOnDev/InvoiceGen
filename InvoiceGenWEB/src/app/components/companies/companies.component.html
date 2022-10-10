@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr  *ngFor="let company of companies" (click)="CompanyPanel()" class="pe-auto" style="cursor: pointer;">
+            <tr  *ngFor="let company of companies" (click)="CompanyPanel(company.companyId)" class="pe-auto" style="cursor: pointer;">
                 <th class="text-center">{{ company.companyId }}</th>
                 <td class="text-center">{{ company.companyName }}</td>
                 <td class="text-center">{{ company.companyEmail }}</td>
@@ -31,7 +31,7 @@
                 <div class="form-group row">
                     <label for="companyId" class="col-sm-2 col-form-label">Company Id:</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="companyId" value="342">
+                        <input type="text" readonly class="form-control-plaintext" id="companyId" value="{{ this.companyInfo.companyId }}">
                     </div>
                 </div>
             </form>
@@ -41,7 +41,7 @@
                 <div class="form-group row">
                     <label for="companyName" class="col-sm-2 col-form-label">Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="companyName" value="Aceros S.L">
+                        <input type="text" readonly class="form-control-plaintext" id="companyName" value="{{ this.companyInfo.companyName }}">
                     </div>
                 </div>
             </form>
@@ -51,7 +51,7 @@
                 <div class="form-group row">
                     <label for="companyCIF" class="col-sm-2 col-form-label">CIF:</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="companyCIF" value="G-47821342">
+                        <input type="text" readonly class="form-control-plaintext" id="companyCIF" value="{{ this.companyInfo.companyCif }}">
                     </div>
                 </div>
             </form>
@@ -61,7 +61,7 @@
                 <div class="form-group row">
                     <label for="companyEmail" class="col-sm-2 col-form-label">Email:</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="companyEmail" value="acerossl@gmail.com">
+                        <input type="text" readonly class="form-control-plaintext" id="companyEmail" value="{{ this.companyInfo.companyEmail }}">
                     </div>
                 </div>
             </form>
@@ -71,7 +71,7 @@
                 <div class="form-group row">
                     <label for="companyPhone" class="col-sm-2 col-form-label">Phone:</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="companyPhone" value="623345567">
+                        <input type="text" readonly class="form-control-plaintext" id="companyPhone" value="{{ this.companyInfo.companyPhone }}">
                     </div>
                 </div>
             </form>
@@ -81,101 +81,94 @@
                 <div class="form-group row">
                     <label for="companyAddress" class="col-sm-2 col-form-label">Address:</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="companyAddress" value="Pol.Ind La Jonquera 34, 08232 Cornella del llobregat">
+                        <input type="text" readonly class="form-control-plaintext" id="companyAddress" value="{{ this.companyInfo.companyAddress }}">
                     </div>
                 </div>
             </form>
         </li>
         <li class="list-group-item"></li>
     </ul>
-
-    <!-- Company Edit -->
-    <ul *ngIf="IsEdit()" class="list-group list-group-flush">
-        <li class="list-group-item">
-            <form>
-                <fieldset disabled>
-                    <div class="form-group row">
-                        <label for="userNickname" class="col-sm-2 col-form-label">Company Id:</label>
-                        <div class="col-sm-10">
-                            <input type="text" readonly class="form-control" id="disabledTextInput userNickname" value="">
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </li>
-        <li class="list-group-item">
-            <form>
-                <div class="form-group row">
-                    <label for="userName" class="col-sm-2 col-form-label">Name:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="userName" value="">
-                    </div>
-                </div>
-            </form>
-        </li>
-        <li class="list-group-item">
-            <form>
-                <div class="form-group row">
-                    <label for="userLastname" class="col-sm-2 col-form-label">CIF:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="userLastname" value="">
-                    </div>
-                </div>
-            </form>
-        </li>
-        <li class="list-group-item">
-            <form>
-                <div class="form-group row">
-                    <label for="companyEmail" class="col-sm-2 col-form-label">Email:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="companyEmail" value="">
-                    </div>
-                </div>
-            </form>
-        </li>
-        <li class="list-group-item">
-            <form>
-                <div class="form-group row">
-                    <label for="companyPhone" class="col-sm-2 col-form-label">Phone:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="companyPhone" value="">
-                    </div>
-                </div>
-            </form>
-        </li>
-        <li class="list-group-item">
-            <form>
-                <div class="form-group row">
-                    <label for="companyAddress" class="col-sm-2 col-form-label">Address:</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="companyAddress" placeholder="Password">
-                    </div>
-                </div>
-            </form>
-        </li>
-        <li class="list-group-item"></li>
-    </ul>
-
-    <!-- Company Buttons -->
     <ul class="list-inline mr-auto ">
         <li *ngIf="!IsEdit()" class="list-inline-item">
-            <a class="btn btn-secondary mx-1 btn-sm" (click)="EditUser()">Edit</a>
+            <a class="btn btn-secondary mx-1 btn-sm" (click)="EditCompany()">Edit</a>
         </li>
         <li *ngIf="!IsEdit()" class="list-inline-item">
             <a class="btn btn-warning mx-1 btn-sm" (click)="CompanyList()">Back</a>
         </li>
-        <li  *ngIf="IsEdit()" class="list-inline-item">
-            <button class="btn btn-success mx-1 btn-sm" type="submit">Submit Changes</button>
-        </li>
-        <li  *ngIf="IsEdit()" class="list-inline-item">
-            <a class="btn btn-warning mx-1 btn-sm" (click)="EditUser()">Cancel</a>
-        </li>
-        <div class="d-grid gap-2 d-md-flex mt-4 justify-content-md-end ">
-            <li  *ngIf="IsEdit()" class="list-inline-item">
-                <a class="btn btn-outline-danger mx-1 btn-sm">Delete Company</a>
-            </li>
-        </div>
     </ul>
+
+    <form class="container form-register" #updateCompanyForm="ngForm" (ngSubmit)="UpdateCompanyById(updateCompanyForm)">
+        <!-- Company Edit -->
+        <ul *ngIf="IsEdit()" class="list-group list-group-flush">
+            <li class="list-group-item">
+                <fieldset disabled>
+                    <div class="form-group row">
+                        <label for="companyId" class="col-sm-2 col-form-label">Company Id:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="disabledTextInput companyId" name="companyId" class="form-control" readonly [(ngModel)]="this.companyInfo.companyId">
+                        </div>
+                    </div>
+                </fieldset>
+            </li>
+            <li class="list-group-item">
+                <div class="form-group row">
+                    <label for="companyName" class="col-sm-2 col-form-label">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="companyName" name="companyName" class="form-control" [(ngModel)]="this.companyInfo.companyName">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="form-group row">
+                    <label for="companyCif" class="col-sm-2 col-form-label">CIF:</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="companyCif" name="companyCif" class="form-control" [(ngModel)]="this.companyInfo.companyCif">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="form-group row">
+                    <label for="companyEmail" class="col-sm-2 col-form-label">Email:</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="companyEmail" name="companyEmail" class="form-control" [(ngModel)]="this.companyInfo.companyEmail">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="form-group row">
+                    <label for="companyPhone" class="col-sm-2 col-form-label">Phone:</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="companyPhone" name="companyPhone" class="form-control" [(ngModel)]="this.companyInfo.companyPhone">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+        
+                <div class="form-group row">
+                    <label for="companyAddress" class="col-sm-2 col-form-label">Address:</label>
+                    <div class="col-sm-10">
+                        <input type="text"  id="companyAddress" name="companyAddress" class="form-control" [(ngModel)]="this.companyInfo.companyAddress">
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item"></li>
+        </ul>
+
+        <!-- Company Buttons -->
+        <ul class="list-inline mr-auto ">
+            <li  *ngIf="IsEdit()" class="list-inline-item">
+                <button class="btn btn-success mx-1 btn-sm" type="submit">Submit Changes</button>
+            </li>
+            <li  *ngIf="IsEdit()" class="list-inline-item">
+                <a class="btn btn-warning mx-1 btn-sm" (click)="EditCompany()">Cancel</a>
+            </li>
+            <div class="d-grid gap-2 d-md-flex mt-4 justify-content-md-end ">
+                <li  *ngIf="IsEdit()" class="list-inline-item">
+                    <a class="btn btn-outline-danger mx-1 btn-sm" (click)="DeleteCompany()">Delete Company</a>
+                </li>
+            </div>
+        </ul>
+    </form>
 </div>
 
 <!-- Company Create -->
