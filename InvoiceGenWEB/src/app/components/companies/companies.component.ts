@@ -53,7 +53,7 @@ export class CompaniesComponent implements OnInit {
   }
 
   EditCompany() {
-    const res = this.isEdit ? (this.isEdit = false, true) : (this.isEdit = true, false)    
+    this.isEdit ? (this.isEdit = false, true) : (this.isEdit = true, false)    
   }
 
   RegisterNewCompany(registerCompanyForm: NgForm){

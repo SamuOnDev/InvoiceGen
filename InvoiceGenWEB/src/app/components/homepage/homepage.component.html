@@ -47,7 +47,7 @@
                     <a class="btn btn-primary mx-1" (click)="RegisterPage()">Login</a>
                 </li>
                 <li *ngIf="IsUserAuthenticated()" class="nav-item">
-                    <a class="btn btn-success mx-1" >Create Invoice</a>
+                    <a class="btn btn-success mx-1" (click)="CreateInvoicePanel()">Create Invoice</a>
                 </li>
                 <li *ngIf="IsUserAuthenticated()" class="nav-item">
                     <a class="btn btn-info mx-1" (click)="HomePanel()">Home</a>
@@ -79,15 +79,18 @@
     <div *ngIf="!IsUserAuthenticated() && IsRegister()">
         <register></register>
     </div>
-    <div *ngIf="IsUserAuthenticated() && !IsUserPanel() && !IsAdminPanel() && !IsCompaniesPanel() && !IsInvoicesPanel()">
+    <div *ngIf="IsUserAuthenticated() && !IsUserPanel() && !IsAdminPanel() && !IsCompaniesPanel() && !IsInvoicesPanel() && !IsCreateInvoicePanel()">
         <!-- <userboard></userboard> -->
-        <companies></companies>
+        <invoice-creation></invoice-creation>
     </div>
     <div *ngIf="IsUserAuthenticated() && IsCompaniesPanel()">
         <companies></companies>
     </div>
     <div *ngIf="IsUserAuthenticated() && IsInvoicesPanel()">
         <invoices></invoices>
+    </div>
+    <div *ngIf="IsUserAuthenticated() && IsCreateInvoicePanel()">
+        <invoice-creation></invoice-creation>
     </div>
     <div *ngIf="IsUserAuthenticated() && IsAdminPanel()">
         <useradministrator></useradministrator>

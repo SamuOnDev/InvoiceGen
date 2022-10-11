@@ -20,6 +20,7 @@ import { UserpanelComponent } from './components/userpanel/userpanel.component';
 import { UseradministratorComponent } from './components/useradministrator/useradministrator.component';
 import { CompaniesComponent } from './components/companies/companies.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
+import { InvoiceCreationComponent } from './components/invoice-creation/invoice-creation.component';
 
 
 //all components routes
@@ -42,7 +43,8 @@ export function tokenGetter() {
     UserpanelComponent,
     UseradministratorComponent,
     CompaniesComponent,
-    InvoicesComponent
+    InvoicesComponent,
+    InvoiceCreationComponent
   ],
   imports: [
     BrowserModule,

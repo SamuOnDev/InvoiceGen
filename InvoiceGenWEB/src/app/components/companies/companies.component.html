@@ -1,6 +1,6 @@
 <!-- Main Panel -->
 <div class="userpanel" *ngIf="!IsCompany() && !IsCreateCompany()">
-    <h1>Companies Panel <a class="btn btn-success my-auto btn-m" (click)="CreateCompanyPanel()">New Company</a> </h1>  
+    <h1 class="text-center">Companies Panel <a class="btn btn-success my-auto btn-m" (click)="CreateCompanyPanel()">New Company</a> </h1>  
 
     <table class="table table-light table-striped table-hover">
         <thead>
@@ -23,8 +23,8 @@
 </div>
 
 <!-- Company Info -->
-<div *ngIf="IsCompany()">
-    <h1>Company Panel  <!--<a class="btn btn-success my-auto btn-m">New Company</a>--> </h1>
+<div *ngIf="IsCompany()" class="company-data mx-auto">
+    <h1 class="text-center">Company Panel  <!--<a class="btn btn-success my-auto btn-m">New Company</a>--> </h1>
     <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
         <li class="list-group-item">
             <form>

@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoicesComponent implements OnInit {
 
+  isInvoice: boolean = false;
+  isCreateInvoice: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  IsInvoice() {
+    return this.isInvoice;
+  }
+  
+  IsCreateInvoice() {
+    return this.isCreateInvoice;
   }
 
 }

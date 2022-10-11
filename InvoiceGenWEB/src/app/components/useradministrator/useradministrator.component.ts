@@ -28,9 +28,7 @@ export class UseradministratorComponent implements OnInit {
         console.log(err.error)
         this.toastr.error("Error getting users")
       },
-      complete: () => {
-        this.toastr.success('User updated succesfully');
-      }
+      complete: () => {}
     });
   }
 

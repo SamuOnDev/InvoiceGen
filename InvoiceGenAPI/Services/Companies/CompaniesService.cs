@@ -29,10 +29,7 @@ namespace InvoiceGenAPI.Services.Companies
                                where company.UserId == tokenId && company.CompanyId == companyId
                                select company).FirstOrDefault();
 
-            if (companyFound == null)
-            {
-                return null;
-            }
+            if (companyFound is null) return null;
             
             return companyFound;
         }
@@ -61,7 +58,7 @@ namespace InvoiceGenAPI.Services.Companies
                              where compCheck.CompanyId.Equals(company.CompanyId) && compCheck.UserId.Equals(userId)
                              select compCheck).FirstOrDefault();
 
-            if (companyToUpdate is null) { return null; }
+            if (companyToUpdate is null) return null; 
 
             companyToUpdate.CompanyId = company.CompanyId;
             companyToUpdate.CompanyName = company.CompanyName;
@@ -91,16 +88,10 @@ namespace InvoiceGenAPI.Services.Companies
 
         public async Task<bool?> DeleteCompanyByIdAsync(int companyId, int userId)
         {
-            //Company? companyToDelete = (from compCheck in _context.Companies
-            //                            where compCheck.CompanyId.Equals(companyId) && compCheck.UserId.Equals(userId)
-            //                            select compCheck).FirstOrDefault();
-
+           
             Company? companyToDelete = _context.Companies.Find(companyId);
 
-            if (companyToDelete is null)
-            {
-                return null;
-            }
+            if (companyToDelete is null) return null;
 
             if (companyToDelete.UserId == userId)
             {
@@ -112,8 +103,6 @@ namespace InvoiceGenAPI.Services.Companies
             }
 
             return false;
-
-            
         }
 
         private bool CompanyExists(int id)

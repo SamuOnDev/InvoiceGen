@@ -18,6 +18,7 @@ export class HomepageComponent  {
   invoicesPanel: boolean =false;
   adminPanel: boolean = false;
   userPanel: boolean = false;
+  createInvoicePanel: boolean = false;
   
 
   IsRegister() {
@@ -40,6 +41,10 @@ export class HomepageComponent  {
     return this.userPanel;
   }
 
+  IsCreateInvoicePanel(){
+    return this.createInvoicePanel;
+  }
+
   RegisterPage() {
     const res = this.registerPage ? (this.registerPage = false, true) : (this.registerPage = true, false)    
   }
@@ -49,6 +54,7 @@ export class HomepageComponent  {
     this.invoicesPanel = false;
     this.adminPanel = false;
     this.userPanel = false;
+    this.createInvoicePanel = false;
   }
 
   CompaniesPanel(){
@@ -56,6 +62,7 @@ export class HomepageComponent  {
     this.invoicesPanel = false;
     this.adminPanel = false;
     this.userPanel = false;
+    this.createInvoicePanel = false;
   }
 
   InvoicesPanel(){
@@ -63,6 +70,7 @@ export class HomepageComponent  {
     this.invoicesPanel = true;
     this.adminPanel = false;
     this.userPanel = false;
+    this.createInvoicePanel = false;
   }
 
   AdminPanel(){
@@ -70,12 +78,23 @@ export class HomepageComponent  {
     this.invoicesPanel = false;
     this.adminPanel = true;
     this.userPanel = false;
+    this.createInvoicePanel = false;
   }
+
   UserPanel() {
     this.companiesPanel = false;
     this.invoicesPanel = false;
     this.adminPanel = false;
     this.userPanel = true;
+    this.createInvoicePanel = false;
+  }
+
+  CreateInvoicePanel() {
+    this.companiesPanel = false;
+    this.invoicesPanel = false;
+    this.adminPanel = false;
+    this.userPanel = false;
+    this.createInvoicePanel = true;
   }
     
   IsUserAuthenticated() {
