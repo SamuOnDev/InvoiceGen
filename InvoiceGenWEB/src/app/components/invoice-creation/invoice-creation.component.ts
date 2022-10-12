@@ -1,11 +1,16 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CompanyDto } from 'src/app/models/companyDto/company-dto';
 import { InvoiceContent } from 'src/app/models/invoiceContent/invoice-content';
+import { InvoiceDto } from 'src/app/models/invoiceDto/invoice-dto';
 import { CompanyService } from 'src/app/services/company/company.service';
+import { InvoiceService } from 'src/app/services/invoice/invoice.service';
+import { HomepageComponent } from '../homepage/homepage.component';
 
 @Component({
+  providers: [HomepageComponent],
   selector: 'invoice-creation',
   templateUrl: './invoice-creation.component.html',
   styleUrls: ['./invoice-creation.component.css']
@@ -18,8 +23,9 @@ export class InvoiceCreationComponent implements OnInit {
   dateNow?: string;
   isAddProduct: boolean = false;
   invoiceProducts: Array<InvoiceContent> = [];
+  
 
-  constructor(private companyService: CompanyService, private toastr: ToastrService) { }
+  constructor(private companyService: CompanyService, private invoiceService: InvoiceService, private toastr: ToastrService, private homeComp: HomepageComponent) { }
 
   ngOnInit(): void {
     this.GetCompanies();
@@ -40,7 +46,6 @@ export class InvoiceCreationComponent implements OnInit {
     this.companyService.GetCompanies(userToken).subscribe({
       next: (response) => {
         this.companies = response;
-        console.log(this.companies);
       }, 
       error: (err: any) => {
         console.log(err.error)
@@ -69,7 +74,6 @@ export class InvoiceCreationComponent implements OnInit {
   CompanySelection(){
     if (this.chosenCompany != "0"){
       this.GetCompanyById(Number(this.chosenCompany));
-      console.log(this.chosenCompany);
     }    
   }
 
@@ -120,7 +124,31 @@ export class InvoiceCreationComponent implements OnInit {
 
     this.invoiceProducts.forEach(element => {
       this.totalArticles = this.totalArticles + Number(element.IContentQuantity);
-      this.totalPrice = this.totalPrice + Number(element.IContentPrice);
+      this.totalPrice = Number((this.totalPrice + Number(element.IContentPrice)).toFixed(2));
+    });
+  }
+
+  SendInvoice(){
+    const userToken = localStorage.getItem("jwt") as string;
+    
+    const invoiceDto = new InvoiceDto();
+    invoiceDto.CompanyId = Number(this.chosenCompany);
+    invoiceDto.InvoiceDate = this.dateNow;
+    invoiceDto.InvoiceTotalArticle = this.totalArticles;
+    invoiceDto.InvoiceTotalPrice = this.totalPrice;
+    invoiceDto.InvoiceContents = this.invoiceProducts;
+  
+    console.log(invoiceDto);
+
+    this.invoiceService.CreateInvoice(invoiceDto, userToken).subscribe({
+      complete: () => {
+        this.toastr.success('Invoice created successfully');
+        this.homeComp.InvoicesPanel();
+      }, 
+      error: (err: any) => {
+        console.log(err.error)
+        this.toastr.error(err.error)
+      }
     });
   }
 

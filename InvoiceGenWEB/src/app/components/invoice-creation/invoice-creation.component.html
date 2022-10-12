@@ -1,9 +1,11 @@
 <div class="container">
-    <h2 class="text-center">Create Invoice</h2>
+    <h2 class="text-center">Create Invoice  </h2>
     <br />
-    <div class="container-fluid border border-dark p-4">
-        <form class="container form-register" #registerForm="ngForm">
-
+    <div class="container-fluid border border-dark p-4 position-relative">
+        <form class="container form-register" #invoiceForm="ngForm" (ngSubmit)="SendInvoice()">
+            <div class="position-absolute top-0 end-0"> 
+                <button class="btn btn-success mx-1 btn m-2" type="submit">Confirm Invoice</button>
+            </div>
             <div class="row">
 
                 <div class="row row-cols-3 justify-content-md-center">
@@ -12,7 +14,7 @@
                         <label for="company" class="col-4 col-form-label text-nowrap text-end">Company:</label>
                         <div class="col-8">
                             <select class="form-select" name="companySelection" aria-label="Default select example" [(ngModel)]="chosenCompany" (ngModelChange)="CompanySelection()">
-                                <option value="0" selected>Open this select menu</option>
+                                <option value="0" selected>Select Company</option>
                                 <option *ngFor="let company of companies" value="{{ company.companyId }}">{{ company.companyName }}</option>
                             </select>
                         </div>
@@ -55,7 +57,7 @@
                 </div>
             </div>
             <div class="">
-                <button class="btn btn-sm btn-primary btn-block m-4" type="submit" (click)="AddProductLine()">Add Product</button>
+                <a class="btn btn-sm btn-primary btn-block m-4" (click)="AddProductLine()">Add Product</a>
             </div>
 
             <table class="table table-striped">
@@ -78,7 +80,7 @@
                         <td>{{ product.IContentUnitPrice }}$</td>
                         <td>{{ product.IContentDiscount }}</td>
                         <td>{{ product.IContentPrice }}$</td>
-                        <td><button class="btn btn-sm btn-danger btn-block" type="submit" (click)="DeleteProduct(product.IContentArticleNumber || 0)">Delete</button></td>
+                        <td><a class="btn btn-sm btn-danger btn-block" (click)="DeleteProduct(product.IContentArticleNumber || 0)">Delete</a></td>
                     </tr>
                     <tr *ngIf="IsAddProductLine()">
                         <td>
@@ -99,7 +101,7 @@
                         <td>
                             <input type="text" readonly class="form-control-plaintext" id="IContentPrice" name="IContentPrice" [ngModel]="this.productToAdd.IContentPrice">
                         </td>
-                        <td><button class="btn btn-sm btn-success btn-block" type="submit" (click)="AddProduct()">Add</button></td>
+                        <td><a class="btn btn-sm btn-success btn-block" type="submit" (click)="AddProduct()">Add</a></td>
                     </tr>
                 </tbody>
                 <tfoot class="text-center border-bottom">

@@ -7,9 +7,12 @@ namespace InvoiceGenAPI.Models.DataModel
         [Required]
         [Key]
         public int InvoiceId { get; set; }
-        public int InvoiceNumber { get; set; }
+        public string InvoiceNumber { get; set; } = string.Empty;
         public DateTime InvoiceDate { get; set; }
-        public Company? InvoiceCompany { get; set; }
-        public User? InvoiceUser { get; set; }
+        public int CompanyId { get; set; }
+        public int UserId { get; set; }
+        public int InvoiceTotalArticle { get; set; }
+        public float InvoiceTotalPrice { get; set; }
+
     }
 }

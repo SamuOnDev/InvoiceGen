@@ -4,6 +4,7 @@ using InvoiceGenAPI.DataAcces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenAPI.Migrations
 {
     [DbContext(typeof(InvoiceGenDBContext))]
-    partial class InvoiceGenDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221012091916_Database Correction Price and Quantity from IContent to Invoice")]
+    partial class DatabaseCorrectionPriceandQuantityfromIContenttoInvoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -91,9 +93,6 @@ namespace InvoiceGenAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceId"), 1L, 1);
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -108,18 +107,23 @@ namespace InvoiceGenAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("InvoiceCompanyCompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InvoiceNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("InvoiceNumber")
+                        .HasColumnType("int");
 
                     b.Property<int>("InvoiceTotalArticle")
                         .HasColumnType("int");
 
                     b.Property<float>("InvoiceTotalPrice")
                         .HasColumnType("real");
+
+                    b.Property<int?>("InvoiceUserUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -131,14 +135,11 @@ namespace InvoiceGenAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("InvoiceId");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("InvoiceCompanyCompanyId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("InvoiceUserUserId");
 
                     b.ToTable("Invoices");
                 });
@@ -151,14 +152,18 @@ namespace InvoiceGenAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IContentId"), 1L, 1);
 
-                    b.Property<int>("IContentArticleNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("IContentArticleNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IContentDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IContentDiscount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IContentInvoiceNumberInvoiceId")
                         .HasColumnType("int");
 
                     b.Property<float>("IContentPrice")
@@ -170,10 +175,9 @@ namespace InvoiceGenAPI.Migrations
                     b.Property<float>("IContentUnitPrice")
                         .HasColumnType("real");
 
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
                     b.HasKey("IContentId");
+
+                    b.HasIndex("IContentInvoiceNumberInvoiceId");
 
                     b.ToTable("InvoicesContent");
                 });
@@ -255,17 +259,26 @@ namespace InvoiceGenAPI.Migrations
 
             modelBuilder.Entity("InvoiceGenAPI.Models.DataModel.Invoice", b =>
                 {
-                    b.HasOne("InvoiceGenAPI.Models.DataModel.Company", null)
+                    b.HasOne("InvoiceGenAPI.Models.DataModel.Company", "InvoiceCompany")
                         .WithMany("Invoices")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InvoiceCompanyCompanyId");
 
-                    b.HasOne("InvoiceGenAPI.Models.DataModel.User", null)
+                    b.HasOne("InvoiceGenAPI.Models.DataModel.User", "InvoiceUser")
                         .WithMany("Invoices")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InvoiceUserUserId");
+
+                    b.Navigation("InvoiceCompany");
+
+                    b.Navigation("InvoiceUser");
+                });
+
+            modelBuilder.Entity("InvoiceGenAPI.Models.DataModel.InvoiceContent", b =>
+                {
+                    b.HasOne("InvoiceGenAPI.Models.DataModel.Invoice", "IContentInvoiceNumber")
+                        .WithMany()
+                        .HasForeignKey("IContentInvoiceNumberInvoiceId");
+
+                    b.Navigation("IContentInvoiceNumber");
                 });
 
             modelBuilder.Entity("InvoiceGenAPI.Models.DataModel.Company", b =>

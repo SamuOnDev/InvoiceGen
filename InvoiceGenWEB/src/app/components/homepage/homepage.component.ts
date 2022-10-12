@@ -15,7 +15,7 @@ export class HomepageComponent  {
 
   registerPage: boolean = false;
   companiesPanel: boolean = false;
-  invoicesPanel: boolean =false;
+  invoicesPanel: boolean = false;
   adminPanel: boolean = false;
   userPanel: boolean = false;
   createInvoicePanel: boolean = false;
@@ -65,12 +65,14 @@ export class HomepageComponent  {
     this.createInvoicePanel = false;
   }
 
-  InvoicesPanel(){
+  public InvoicesPanel() {
+    console.log("holaaaaaaaaaaaaaaa")
     this.companiesPanel = false;
     this.invoicesPanel = true;
     this.adminPanel = false;
     this.userPanel = false;
     this.createInvoicePanel = false;
+    console.log(this.invoicesPanel)
   }
 
   AdminPanel(){
