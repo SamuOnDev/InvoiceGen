@@ -62,7 +62,8 @@ Para las cuales se deberán tomar las siguientes **consideraciones**:
 - Login de Usuarios
 - Panel de control Usuario ver y modificar datos propios
 - Panel de control Administrador ver y modificar todos los datos de los usuarios
-- Panel de compañias en menu de usuario
+- Panel de empresas en menu de usuario
+- Creacion de facturas con listado propio de empresas por usuario
 
 
 <!-- LICENSE -->
