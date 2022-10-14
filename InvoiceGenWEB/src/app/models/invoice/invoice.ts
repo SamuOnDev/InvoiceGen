@@ -1,6 +1,11 @@
 export class Invoice {
-    InvoiceNumber?: number;
-    InvoiceDate?: Date;
-    InvoiceCompany?: number;
-    InvoiceUser?: number;
+    InvoiceId?: number;
+    InvoiceNumber?: string;
+    InvoiceDate?: string;
+    CompanyId?: number;
+    CompanyName?: string;
+    UserId?: number;
+    InvoiceTotalArticle?: number;
+    InvoiceTotalPrice?: number;
+    InvoiceContents?: {};
 }

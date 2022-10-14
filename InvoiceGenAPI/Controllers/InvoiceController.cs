@@ -20,7 +20,19 @@ namespace InvoiceGenAPI.Controllers
             _invoiceService = invoicesService;
         }
 
+        [HttpGet]
+        [Route("GetInvoices")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<IActionResult> GetCompanies()
+        {
+            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
+            var invoices = _invoiceService.GetInvoicesByUserId(tokenId);
+
+            return Ok(invoices);
+        }
+
+       
 
     }
 }

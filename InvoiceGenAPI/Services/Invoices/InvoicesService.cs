@@ -1,5 +1,6 @@
 ﻿using InvoiceGenAPI.DataAcces;
 using InvoiceGenAPI.Models.DataModel;
+using System.ComponentModel.Design;
 
 namespace InvoiceGenAPI.Services.Invoices
 {
@@ -13,10 +14,21 @@ namespace InvoiceGenAPI.Services.Invoices
             
         }
 
+        public List<Invoice> GetInvoicesByUserId(int tokenId)
+        {
+            List<Invoice> companiesByUserId = (from invoice in _context.Invoices
+                                               where invoice.UserId == tokenId
+                                               select invoice).OrderByDescending(x => x.InvoiceId).ToList(); ;
+
+            return companiesByUserId;
+        }
+
         public Invoice SaveInvoiceToDb(InvoiceDto invoiceDto, int tokenId)
         {
             Invoice invoice = new Invoice();
+            invoice.InvoiceDate = invoiceDto.InvoiceDate;
             invoice.CompanyId = invoiceDto.CompanyId;
+            invoice.CompanyName = invoiceDto.CompanyName;
             invoice.UserId = tokenId;
             invoice.InvoiceTotalArticle = invoiceDto.InvoiceTotalArticle;
             invoice.InvoiceTotalPrice = invoiceDto.InvoiceTotalPrice;

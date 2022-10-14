@@ -14,6 +14,17 @@ namespace InvoiceGenAPI.Services.IContent
         {
             _context = context;
         }
+
+        public List<InvoiceContent> GetInvoiceContentById(int invoiceId, int tokenId)
+        {
+            Console.WriteLine($"Factura numer:{invoiceId}");
+            List<InvoiceContent> invoicesById = (from product in _context.InvoicesContent
+                                               where product.InvoiceId == invoiceId
+                                               select product).ToList();
+
+            return invoicesById;
+        }
+
         public bool SaveInvoiceContentToDb(Invoice savedInvoice, InvoiceDto invoiceDto, int tokenId)
         {
             foreach (InvoiceContent product in invoiceDto.InvoiceContents)

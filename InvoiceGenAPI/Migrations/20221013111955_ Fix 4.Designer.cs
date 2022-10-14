@@ -4,6 +4,7 @@ using InvoiceGenAPI.DataAcces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenAPI.Migrations
 {
     [DbContext(typeof(InvoiceGenDBContext))]
-    partial class InvoiceGenDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221013111955_ Fix 4")]
+    partial class Fix4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

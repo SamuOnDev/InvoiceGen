@@ -66,13 +66,11 @@ export class HomepageComponent  {
   }
 
   public InvoicesPanel() {
-    console.log("holaaaaaaaaaaaaaaa")
     this.companiesPanel = false;
     this.invoicesPanel = true;
     this.adminPanel = false;
     this.userPanel = false;
     this.createInvoicePanel = false;
-    console.log(this.invoicesPanel)
   }
 
   AdminPanel(){

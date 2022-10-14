@@ -96,8 +96,6 @@ export class InvoiceCreationComponent implements OnInit {
       product.IContentPrice = product.IContentQuantity*product.IContentUnitPrice;
     }
 
-    
-
     this.invoiceProducts.push(product);
 
     this.RefreshQuantityPrice();
@@ -133,6 +131,7 @@ export class InvoiceCreationComponent implements OnInit {
     
     const invoiceDto = new InvoiceDto();
     invoiceDto.CompanyId = Number(this.chosenCompany);
+    invoiceDto.CompanyName = this.companyInfo.companyName;
     invoiceDto.InvoiceDate = this.dateNow;
     invoiceDto.InvoiceTotalArticle = this.totalArticles;
     invoiceDto.InvoiceTotalPrice = this.totalPrice;

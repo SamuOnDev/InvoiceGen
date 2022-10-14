@@ -1,5 +1,5 @@
 <!-- Invoice Panel -->
-<div class="container">
+<div class="container" *ngIf="!IsInvoiceDetails()">
     <div class="container text-center">
         <div class="row align-items-center">
             <div class="col col-sm">
@@ -48,16 +48,137 @@
             </tr>
         </thead>
         <tbody>
-            <tr   class="pe-auto" style="cursor: pointer;">
-                <th class="text-center"></th>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
+            <tr *ngFor="let invoice of invoices" (click)="InvoiceDetails(invoice.invoiceId)" class="pe-auto" style="cursor: pointer;">
+                <th class="text-center">{{ invoice.invoiceId }}</th>
+                <td class="text-center">{{ invoice.companyName }}</td>
+                <td class="text-center">{{ invoice.invoiceDate }}</td>
+                <td class="text-center">{{ invoice.invoiceTotalPrice }}$</td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<!-- Invoice Details -->
+<div class="container" *ngIf="IsInvoiceDetails()">
+    <h2 class="text-center"> TITULO </h2>
+    <br />
+    <div class="container-fluid border border-dark p-4 position-relative">
+        <form class="container form-register" #invoiceForm="ngForm">
+            <div class="position-absolute top-0 end-0"> 
+                <button class="btn btn-success mx-1 btn m-2" type="submit">Confirm Invoice</button>
+            </div>
+            <div class="row">
 
+                <div class="row row-cols-3 justify-content-md-center">
+
+                    <div class="col form-group row py-3">
+                        <label for="company" class="col-4 col-form-label text-nowrap text-end">Company:</label>
+                        <div class="col-8">
+                            <select class="form-select" name="companySelection" aria-label="Default select example">
+                                <option value="0" selected>Select Company</option>
+                                <!-- <option *ngFor="let company of companies" value="{{ company.companyId }}">{{ company.companyName }}</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col form-group row py-3">
+
+                        <label for="companyPhone" class="col-4 col-form-label text-nowrap text-end">Phone:</label>
+                        <div class="col-8">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="companyPhone" value="Phone">
+                        </div>
+
+                    </div>
+                    <div class="col form-group row py-3">
+
+                        <label for="invoiceNumber" class="col-4 col-form-label text-nowrap text-end">Invoice Number:</label>
+                        <div class="col-8">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="invoiceNumber" value="Define Logic">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cols-3 justify-content-md-center">
+                    <div class="col form-group row py-3">
+                        <label for="companyAddress" class="col-4 col-form-label text-nowrap text-end">Address:</label>
+                        <div class="col-8">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="companyAddress" value="Address">
+                        </div>
+                    </div>
+                    <div class="col form-group row py-3">
+                        <label for="companyEmail" class="col-4 col-form-label text-nowrap text-end">Email:</label>
+                        <div class="col-8">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="companyEmail" value="Email">
+                        </div>
+                    </div>
+                    <div class="col form-group row py-3">
+                        <label for="invoiceDate" class="col-4 col-form-label text-nowrap text-end">Invoice Date:</label>
+                        <div class="col-8">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="invoiceDate" value="date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr class="table-primary text-center">
+                        <th class="col-1 text-nowrap" scope="col">Art. Number</th>
+                        <th class="col-5" scope="col">Description</th>
+                        <th class="col-1" scope="col">Quantity</th>
+                        <th class="col-2" scope="col">Unit Price</th>
+                        <th class="col-1" scope="col">Discount</th>
+                        <th class="col-1" scope="col">Price</th>
+                        <!-- <th class="col-1" scope="col"></th> -->
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr *ngFor="let product of invoiceProducts">
+                        <td>{{ product.iContentArticleNumber }}</td>
+                        <td>{{ product.iContentDescription }}</td>
+                        <td>{{ product.iContentQuantity }}</td>
+                        <td>{{ product.iContentUnitPrice }}$</td>
+                        <td>{{ product.iContentDiscount }}</td>
+                        <td>{{ product.iContentPrice }}$</td>
+                        <!-- <td><a class="btn btn-sm btn-danger btn-block" (click)="DeleteProduct(product.IContentArticleNumber || 0)">Delete</a></td> -->
+                    </tr>
+                    <!-- <tr *ngIf="IsAddProductLine()">
+                        <td>
+                            <input type="text" readonly class="form-control-plaintext" id="IContentArticleNumber" name="IContentArticleNumber" [(ngModel)]="this.productToAdd.IContentArticleNumber">
+                        </td>
+                        <td>
+                            <input type="text" id="IContentDescription" name="IContentDescription" class="form-control" placeholder="Description" [(ngModel)]="this.productToAdd.IContentDescription">
+                        </td>
+                        <td>
+                            <input type="text" id="IContentQuantity" name="IContentQuantity" class="form-control" placeholder="Quant" [(ngModel)]="this.productToAdd.IContentQuantity">
+                        </td>
+                        <td>
+                            <input type="text" id="IContentUnitPrice" name="IContentUnitPrice" class="form-control" placeholder="Unit Price" [(ngModel)]="this.productToAdd.IContentUnitPrice">
+                        </td>
+                        <td>
+                            <input type="text" id="IContentDiscount" name="IContentDiscount" class="form-control" placeholder="% Disc" [(ngModel)]="this.productToAdd.IContentDiscount">
+                        </td>
+                        <td>
+                            <input type="text" readonly class="form-control-plaintext" id="IContentPrice" name="IContentPrice" [ngModel]="this.productToAdd.IContentPrice">
+                        </td>
+                        <td><a class="btn btn-sm btn-success btn-block" type="submit" (click)="AddProduct()">Add</a></td>
+                    </tr> -->
+                </tbody>
+                <tfoot class="text-center border-bottom">
+                    <td scope="col" colspan="1"></td>
+                    <th scope="col">Total Quantity</th>
+                    <td scope="col" colspan="1">
+                        <!-- <input type="text" readonly class="form-control-plaintext text-center" id="IContentTotalArticle" name="IContentTotalArticle" [ngModel]="this.totalArticles"> -->
+                    </td>
+                    <td scope="col" colspan="1"></td>
+                    <th scope="col">Total Price</th>
+                    <td scope="col">
+                        <!-- <input type="text" readonly class="form-control-plaintext text-center" id="IContentTotalPrice" name="IContentTotalPrice" [ngModel]="this.totalPrice + '$'"> -->
+                    </td>
+                </tfoot>
+            </table>
+
+
+        </form>
+    </div>
+</div>
 
 

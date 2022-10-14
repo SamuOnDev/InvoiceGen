@@ -31,56 +31,23 @@ namespace InvoiceGenAPI.Controllers
             _invoiceService = invoicesService;
         }
 
-        // GET: api/InvoiceContents
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<InvoiceContent>>> GetInvoicesContent()
+        [Route("GetInvoiceContent/{invoiceId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<IActionResult> GetInvoiceContentById(int invoiceId)
         {
-            return await _context.InvoicesContent.ToListAsync();
-        }
+            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
-        // GET: api/InvoiceContents/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<InvoiceContent>> GetInvoiceContent(int id)
-        {
-            var invoiceContent = await _context.InvoicesContent.FindAsync(id);
+            Console.WriteLine($"Factura numer:{invoiceId}");
+
+            List<InvoiceContent> invoiceContent = _iContentService.GetInvoiceContentById(invoiceId, tokenId);
 
             if (invoiceContent == null)
             {
                 return NotFound();
             }
 
-            return invoiceContent;
-        }
-
-        // PUT: api/InvoiceContents/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutInvoiceContent(int id, InvoiceContent invoiceContent)
-        {
-            if (id != invoiceContent.IContentId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(invoiceContent).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!InvoiceContentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(invoiceContent);
         }
 
         [HttpPost]
@@ -100,27 +67,6 @@ namespace InvoiceGenAPI.Controllers
 
             return Ok();
             
-        }
-
-        // DELETE: api/InvoiceContents/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInvoiceContent(int id)
-        {
-            var invoiceContent = await _context.InvoicesContent.FindAsync(id);
-            if (invoiceContent == null)
-            {
-                return NotFound();
-            }
-
-            _context.InvoicesContent.Remove(invoiceContent);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool InvoiceContentExists(int id)
-        {
-            return _context.InvoicesContent.Any(e => e.IContentId == id);
         }
     }
 }
