@@ -17,7 +17,8 @@ export class InvoicesComponent implements OnInit {
   invoiceProducts: any;
   invoiceCompany?: CompanyDto;
   invoice: any;
-  isInvoiceDetails: boolean = false;
+  isInvoiceDetails: boolean = true;
+  isInvoiceToPdf: boolean = true;
 
   constructor(private invoiceService: InvoiceService, private toastr: ToastrService, private icontentService: InvoiceContentService, private companyService: CompanyService) { }
 
@@ -27,6 +28,10 @@ export class InvoicesComponent implements OnInit {
 
   IsInvoiceDetails() {
     return this.isInvoiceDetails;
+  }
+
+  IsConvertToPdf() {
+    return this.isInvoiceToPdf;
   }
 
   InvoiceMenu(){

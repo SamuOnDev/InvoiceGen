@@ -59,7 +59,7 @@
 </div>
 
 <!-- Invoice Details -->
-<div class="container" *ngIf="IsInvoiceDetails()">
+<div class="container" *ngIf="IsInvoiceDetails() && !IsConvertToPdf()">
     <h2 class="text-center"> Invoice ({{ this.invoice.invoiceNumber }}) <a class="btn btn-warning my-auto btn-m" (click)="InvoiceMenu()">Back</a></h2>
     <br />
     <div class="container-fluid border border-dark p-4 position-relative">
@@ -174,9 +174,138 @@
                 </tfoot>
             </table>
 
-
         </form>
     </div>
 </div>
 
 
+<div class="container" *ngIf="IsInvoiceDetails() && IsConvertToPdf()">
+    <br />
+    <h2 class="text-center">Converting Invoice Num. XXX-XXXX to PDF</h2>
+    <br />
+
+    <div id="pdfHeader" #pdfHeader>
+        <div class="container text-center">
+            <div class="row justify-content-start border">
+                
+                <div class="col-1 align-self-start border">
+                    <h6 class="text-nowrap">INVOICE TO:</h6>
+                </div>
+                <div class="col-11 border">
+                    <div class="row">
+                        <div class="col-3 border">
+                            <input type="text" readonly class="form-control-plaintext" id="companyName" value="Nombre compania">
+                        </div>
+
+                        <div class="col-1"></div>
+
+                        <div class="col-3 align-self-start border">
+                            <input type="text" readonly class="form-control-plaintext" id="companyPhone" value="Phone: 678945324">
+                        </div>
+
+                        <div class="col-2"></div>
+
+                        <div class="col-3 border">
+                            <input type="text" readonly class="form-control-plaintext" id="invoiceNum" value="Invoice Num: 004-4567">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 border">
+                            <textarea class="form-control" id="floatingTextarea2" style="height: auto; resize: none; border: none; outline: none;">Pol.ind La Bovila Nave 2, 08228 Viladecavalls</textarea>
+                        </div>
+
+                        <div class="col-1"></div>
+
+                        <div class="col-3 border">
+                            <input type="text" readonly class="form-control-plaintext" id="companyName" value="Email: company@email.com">
+                        </div>
+
+                        <div class="col-2"></div>
+
+                        <div class="col-3 border">
+                            <input type="text" readonly class="form-control-plaintext" id="companyName" value="Date: 13/10/2022 - 13:23">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+
+    <div id="pdfTable" #pdfTable>
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-info text-center border-bottom border-2 border-primary ">
+                    <th class="col-1 text-nowrap border-end border-4 border-light" scope="col">Art. Number</th>
+                    <th class="col-5 text-nowrap border-end border-4 border-light" scope="col">Description</th>
+                    <th class="col-1 text-nowrap border-end border-4 border-light" scope="col">Quantity</th>
+                    <th class="col-2 text-nowrap border-end border-4 border-light" scope="col">Unit Price</th>
+                    <th class="col-1 text-nowrap border-end border-4 border-light" scope="col">Discount</th>
+                    <th class="col-1 table-primary text-nowrap border-4 border-light" scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <tr>
+                    <td>Z4568</td>
+                    <td  class="text-start">Description Product</td>
+                    <td>2</td>
+                    <td>34$</td>
+                    <td>5%</td>
+                    <td>66$</td>
+                </tr>
+                <tr>
+                    <td>Z4569</td>
+                    <td class="text-start">Description Product</td>
+                    <td>34</td>
+                    <td>356$</td>
+                    <td>12%</td>
+                    <td>64546$</td>
+                </tr>
+            </tbody>
+
+            <tfoot class="text-center border-top border-2 border-primary">
+                <tr>
+                    <td scope="col" colspan="1"></td>
+                    <th scope="col" colspan="1" class="text-end">Total Products:</th>
+                    <td scope="col" colspan="1">36</td>
+                    <td scope="col" colspan="1">
+                        <div class="col form-group row">
+                            <th for="invoiceTaxesPercent" class="col-4 col-form-label text-nowrap text-end">IVA:</th>
+                            <div class="col-8">
+                                <input type="text" readonly class="form-control-plaintext text-start" id="invoiceTaxesPercent" name="invoiceTaxesPercent" value="21%">
+                            </div>
+                        </div>
+                    </td>
+                    <th scope="col" class="text-end">Price without IVA:</th>
+                    <td scope="col">
+                        <input type="text" readonly class=" text-center form-control-plaintext" id="totalPrice" value="64602$">
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="col" colspan="1"></td>
+                    <td scope="col" colspan="1"></td>
+                    <td scope="col" colspan="1"></td>
+                    <td scope="col" class="position-relative">
+                        
+                        <div class="col form-group row">
+                            <th for="invoiceTaxPrice" class="col-4 col-form-label text-nowrap text-end">IVA Price:</th>
+                            <div class="col-8">
+                                <input type="text" readonly class="form-control-plaintext text-start" id="invoiceTaxPrice" name="invoiceTaxPrice" value="123$">
+                            </div>
+                        </div>
+                    </td>
+                    <th scope="col">Total Price</th>
+                    <td scope="col">
+                        <input type="text" readonly class="form-control-plaintext text-center" id="invoicePriceWithTaxes" name="invoicePriceWithTaxes" value="1234$">
+                    </td>
+                </tr>
+                
+            </tfoot>
+
+        </table>
+
+    </div>
+
+    <button class="btn btn-primary" >Export To PDF</button>
+
+</div>
