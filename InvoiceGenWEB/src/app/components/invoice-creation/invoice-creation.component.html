@@ -106,18 +106,42 @@
                 </tbody>
                 <tfoot class="text-center border-bottom">
                     <td scope="col" colspan="1"></td>
+                    <td scope="col" colspan="1"></td>
+                    <td scope="col" colspan="1">
+                        <div class="col form-group row py-3">
+                            <th for="invoiceTaxesPercent" class="col-4 col-form-label text-nowrap text-end">IVA:</th>
+                            <div class="col-8">
+                                <input type="text" id="invoiceTaxesPercent" name="invoiceTaxesPercent" class="form-control text-center" [(ngModel)]="this.invoiceTaxesPercent">
+                            </div>
+                        </div>
+                    </td>
+                    <td scope="col" colspan="1">
+                        <div class="col form-group row py-3">
+                            <th for="invoiceTaxesPercent" class="col-4 col-form-label text-nowrap text-end">IVA Price:</th>
+                            <div class="col-8">
+                                <input type="text" readonly class="form-control-plaintext text-center" id="totalTaxes" name="totalTaxes" [ngModel]="this.totalTaxes + '$'">
+                            </div>
+                        </div>
+                    </td>
+                    <th scope="col">Total Price</th>
+                    <td scope="col">
+                        <input type="text" readonly class="form-control-plaintext text-center" id="totalPriceWithTaxes" name="totalPriceWithTaxes" [ngModel]="this.totalPriceWithTaxes + '$'">
+                    </td>
+                </tfoot>
+                <tfoot class="text-center border-bottom">
+                    <td scope="col" colspan="1"></td>
                     <th scope="col">Total Quantity</th>
                     <td scope="col" colspan="1">
                         <input type="text" readonly class="form-control-plaintext text-center" id="IContentTotalArticle" name="IContentTotalArticle" [ngModel]="this.totalArticles">
                     </td>
                     <td scope="col" colspan="1"></td>
-                    <th scope="col">Total Price</th>
+                    <th scope="col">Price</th>
                     <td scope="col">
                         <input type="text" readonly class="form-control-plaintext text-center" id="IContentTotalPrice" name="IContentTotalPrice" [ngModel]="this.totalPrice + '$'">
                     </td>
                 </tfoot>
-            </table>
 
+            </table>
 
         </form>
     </div>

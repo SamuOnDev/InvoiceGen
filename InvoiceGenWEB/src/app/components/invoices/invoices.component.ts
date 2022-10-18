@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Invoice } from 'src/app/models/invoice/invoice';
 import { InvoiceService } from 'src/app/services/invoice/invoice.service';
 import { InvoiceContentService } from 'src/app/services/invoiceContent/invoice-content.service';
+import { CompanyService } from 'src/app/services/company/company.service';
+import { CompanyDto } from 'src/app/models/companyDto/company-dto';
+import { InvoiceDto } from 'src/app/models/invoiceDto/invoice-dto';
 
 @Component({
   selector: 'invoices',
@@ -13,9 +15,11 @@ export class InvoicesComponent implements OnInit {
 
   invoices: any;
   invoiceProducts: any;
+  invoiceCompany?: CompanyDto;
+  invoice: any;
   isInvoiceDetails: boolean = false;
 
-  constructor(private invoiceService: InvoiceService, private toastr: ToastrService, private icontentService: InvoiceContentService) { }
+  constructor(private invoiceService: InvoiceService, private toastr: ToastrService, private icontentService: InvoiceContentService, private companyService: CompanyService) { }
 
   ngOnInit(): void {
     this.GetInvoices();
@@ -25,9 +29,16 @@ export class InvoicesComponent implements OnInit {
     return this.isInvoiceDetails;
   }
 
-  InvoiceDetails(invoiceId: number){
+  InvoiceMenu(){
+    this.isInvoiceDetails = false;
+  }
+
+  InvoiceDetails(invoiceId: number, companyId: number, invoice: InvoiceDto){
     this.isInvoiceDetails = true;
-    this.GetInvoiceContentById(invoiceId)
+    this.GetInvoiceContentById(invoiceId);
+    this.GetCompanyById(companyId);
+    this.invoice = invoice;
+    console.log(this.invoice);
   }
 
   GetInvoices(){
@@ -45,14 +56,27 @@ export class InvoicesComponent implements OnInit {
     });
   }
 
-  GetInvoiceContentById(invoiceId: number){
+  GetInvoiceContentById(invoiceId: number) {
     const userToken = localStorage.getItem("jwt") as string;
-    console.log(invoiceId)
     
     this.icontentService.GetInvoiceContentById(invoiceId, userToken).subscribe({
       next: (response) => {
         this.invoiceProducts = response;
-        console.log(this.invoiceProducts)
+      }, 
+      error: (err: any) => {
+        console.log(err.error)
+        this.toastr.error("Error getting Invoices")
+      },
+      complete: () => {}
+    });
+  }
+
+  GetCompanyById(companyId: number) {
+    const userToken = localStorage.getItem("jwt") as string;
+    
+    this.companyService.GetCompanyById(companyId, userToken).subscribe({
+      next: (response) => {
+        this.invoiceCompany = response;
       }, 
       error: (err: any) => {
         console.log(err.error)

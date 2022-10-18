@@ -23,13 +23,18 @@ export class InvoiceCreationComponent implements OnInit {
   dateNow?: string;
   isAddProduct: boolean = false;
   invoiceProducts: Array<InvoiceContent> = [];
-  
+  productToAdd: InvoiceContent = {};
+  totalArticles: number = 0;
+  invoiceTaxesPercent: number = 21;
+  totalPrice: number = 0;
+  totalPriceWithTaxes: number = 0;
+  totalTaxes: number = 0;
 
   constructor(private companyService: CompanyService, private invoiceService: InvoiceService, private toastr: ToastrService, private homeComp: HomepageComponent) { }
 
   ngOnInit(): void {
     this.GetCompanies();
-    this.dateNow = formatDate(new Date(), 'HH:mm - dd/MM/yyyy', 'en');
+    this.dateNow = formatDate(new Date(), 'dd-MM-yyyy HH:mm', 'en');
   }
 
   IsAddProductLine() {
@@ -77,9 +82,7 @@ export class InvoiceCreationComponent implements OnInit {
     }    
   }
 
-  productToAdd: InvoiceContent = {};
-  totalArticles: number = 0;
-  totalPrice: number = 0;
+  
 
   AddProduct() {
 
@@ -123,6 +126,8 @@ export class InvoiceCreationComponent implements OnInit {
     this.invoiceProducts.forEach(element => {
       this.totalArticles = this.totalArticles + Number(element.IContentQuantity);
       this.totalPrice = Number((this.totalPrice + Number(element.IContentPrice)).toFixed(2));
+      this.totalTaxes = Number( ((this.totalPrice / 100) * 21 ).toFixed(2) );
+      this.totalPriceWithTaxes = Number( ( this.totalPrice + ((this.totalPrice / 100) * 21 )).toFixed(2) );
     });
   }
 
@@ -135,6 +140,9 @@ export class InvoiceCreationComponent implements OnInit {
     invoiceDto.InvoiceDate = this.dateNow;
     invoiceDto.InvoiceTotalArticle = this.totalArticles;
     invoiceDto.InvoiceTotalPrice = this.totalPrice;
+    invoiceDto.InvoiceTaxPercent = this.invoiceTaxesPercent;
+    invoiceDto.InvoiceTaxPrice = this.totalTaxes;
+    invoiceDto.InvoicePriceWithTaxes = this.totalPriceWithTaxes;
     invoiceDto.InvoiceContents = this.invoiceProducts;
   
     console.log(invoiceDto);

@@ -32,7 +32,10 @@ namespace InvoiceGenAPI.Services.Invoices
             invoice.UserId = tokenId;
             invoice.InvoiceTotalArticle = invoiceDto.InvoiceTotalArticle;
             invoice.InvoiceTotalPrice = invoiceDto.InvoiceTotalPrice;
-
+            invoice.InvoiceTaxPercent = invoiceDto.InvoiceTaxPercent;
+            invoice.InvoiceTaxPrice = invoiceDto.InvoiceTaxPrice;
+            invoice.InvoicePriceWithTaxes = invoiceDto.InvoicePriceWithTaxes;
+            
             _context.Invoices.Add(invoice);
 
             _context.SaveChanges();

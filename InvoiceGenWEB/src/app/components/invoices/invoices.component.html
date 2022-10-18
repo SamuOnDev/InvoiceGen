@@ -48,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let invoice of invoices" (click)="InvoiceDetails(invoice.invoiceId)" class="pe-auto" style="cursor: pointer;">
+            <tr *ngFor="let invoice of invoices" (click)="InvoiceDetails(invoice.invoiceId, invoice.companyId, invoice)" class="pe-auto" style="cursor: pointer;">
                 <th class="text-center">{{ invoice.invoiceId }}</th>
                 <td class="text-center">{{ invoice.companyName }}</td>
                 <td class="text-center">{{ invoice.invoiceDate }}</td>
@@ -60,12 +60,12 @@
 
 <!-- Invoice Details -->
 <div class="container" *ngIf="IsInvoiceDetails()">
-    <h2 class="text-center"> TITULO </h2>
+    <h2 class="text-center"> Invoice ({{ this.invoice.invoiceNumber }}) <a class="btn btn-warning my-auto btn-m" (click)="InvoiceMenu()">Back</a></h2>
     <br />
     <div class="container-fluid border border-dark p-4 position-relative">
         <form class="container form-register" #invoiceForm="ngForm">
             <div class="position-absolute top-0 end-0"> 
-                <button class="btn btn-success mx-1 btn m-2" type="submit">Confirm Invoice</button>
+                <button class="btn btn-success mx-1 btn m-2" type="submit">Convert to PDF</button>
             </div>
             <div class="row">
 
@@ -74,17 +74,14 @@
                     <div class="col form-group row py-3">
                         <label for="company" class="col-4 col-form-label text-nowrap text-end">Company:</label>
                         <div class="col-8">
-                            <select class="form-select" name="companySelection" aria-label="Default select example">
-                                <option value="0" selected>Select Company</option>
-                                <!-- <option *ngFor="let company of companies" value="{{ company.companyId }}">{{ company.companyName }}</option> -->
-                            </select>
+                            <input type="text" readonly class="form-control-plaintext text-start" id="company" value="{{ invoiceCompany?.companyName}}">
                         </div>
                     </div>
                     <div class="col form-group row py-3">
 
                         <label for="companyPhone" class="col-4 col-form-label text-nowrap text-end">Phone:</label>
                         <div class="col-8">
-                            <input type="text" readonly class="form-control-plaintext text-start" id="companyPhone" value="Phone">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="companyPhone" value="{{ invoiceCompany?.companyPhone}}">
                         </div>
 
                     </div>
@@ -92,7 +89,7 @@
 
                         <label for="invoiceNumber" class="col-4 col-form-label text-nowrap text-end">Invoice Number:</label>
                         <div class="col-8">
-                            <input type="text" readonly class="form-control-plaintext text-start" id="invoiceNumber" value="Define Logic">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="invoiceNumber" value="{{ this.invoice.invoiceNumber }}">
                         </div>
                     </div>
                 </div>
@@ -100,19 +97,19 @@
                     <div class="col form-group row py-3">
                         <label for="companyAddress" class="col-4 col-form-label text-nowrap text-end">Address:</label>
                         <div class="col-8">
-                            <input type="text" readonly class="form-control-plaintext text-start" id="companyAddress" value="Address">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="companyAddress" value="{{ invoiceCompany?.companyAddress}}">
                         </div>
                     </div>
                     <div class="col form-group row py-3">
                         <label for="companyEmail" class="col-4 col-form-label text-nowrap text-end">Email:</label>
                         <div class="col-8">
-                            <input type="text" readonly class="form-control-plaintext text-start" id="companyEmail" value="Email">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="companyEmail" value="{{ invoiceCompany?.companyEmail}}">
                         </div>
                     </div>
                     <div class="col form-group row py-3">
                         <label for="invoiceDate" class="col-4 col-form-label text-nowrap text-end">Invoice Date:</label>
                         <div class="col-8">
-                            <input type="text" readonly class="form-control-plaintext text-start" id="invoiceDate" value="date">
+                            <input type="text" readonly class="form-control-plaintext text-start" id="invoiceDate" value="{{ this.invoice.invoiceDate }}">
                         </div>
                     </div>
                 </div>
@@ -127,7 +124,6 @@
                         <th class="col-2" scope="col">Unit Price</th>
                         <th class="col-1" scope="col">Discount</th>
                         <th class="col-1" scope="col">Price</th>
-                        <!-- <th class="col-1" scope="col"></th> -->
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -138,40 +134,42 @@
                         <td>{{ product.iContentUnitPrice }}$</td>
                         <td>{{ product.iContentDiscount }}</td>
                         <td>{{ product.iContentPrice }}$</td>
-                        <!-- <td><a class="btn btn-sm btn-danger btn-block" (click)="DeleteProduct(product.IContentArticleNumber || 0)">Delete</a></td> -->
                     </tr>
-                    <!-- <tr *ngIf="IsAddProductLine()">
-                        <td>
-                            <input type="text" readonly class="form-control-plaintext" id="IContentArticleNumber" name="IContentArticleNumber" [(ngModel)]="this.productToAdd.IContentArticleNumber">
-                        </td>
-                        <td>
-                            <input type="text" id="IContentDescription" name="IContentDescription" class="form-control" placeholder="Description" [(ngModel)]="this.productToAdd.IContentDescription">
-                        </td>
-                        <td>
-                            <input type="text" id="IContentQuantity" name="IContentQuantity" class="form-control" placeholder="Quant" [(ngModel)]="this.productToAdd.IContentQuantity">
-                        </td>
-                        <td>
-                            <input type="text" id="IContentUnitPrice" name="IContentUnitPrice" class="form-control" placeholder="Unit Price" [(ngModel)]="this.productToAdd.IContentUnitPrice">
-                        </td>
-                        <td>
-                            <input type="text" id="IContentDiscount" name="IContentDiscount" class="form-control" placeholder="% Disc" [(ngModel)]="this.productToAdd.IContentDiscount">
-                        </td>
-                        <td>
-                            <input type="text" readonly class="form-control-plaintext" id="IContentPrice" name="IContentPrice" [ngModel]="this.productToAdd.IContentPrice">
-                        </td>
-                        <td><a class="btn btn-sm btn-success btn-block" type="submit" (click)="AddProduct()">Add</a></td>
-                    </tr> -->
                 </tbody>
+                <tfoot class="text-center border-bottom">
+                    <td scope="col" colspan="1"></td>
+                    <td scope="col" colspan="1"></td>
+                    <td scope="col" colspan="1">
+                        <div class="col form-group row py-3">
+                            <th for="invoiceTaxesPercent" class="col-4 col-form-label text-nowrap text-end">IVA:</th>
+                            <div class="col-8">
+                                <input type="text" readonly class="form-control-plaintext text-center" id="invoiceTaxesPercent" name="invoiceTaxesPercent" value="{{ this.invoice.invoiceTaxPercent }}%">
+                            </div>
+                        </div>
+                    </td>
+                    <td scope="col" colspan="1">
+                        <div class="col form-group row py-3">
+                            <th for="invoiceTaxPrice" class="col-4 col-form-label text-nowrap text-end">IVA Price:</th>
+                            <div class="col-8">
+                                <input type="text" readonly class="form-control-plaintext text-center" id="invoiceTaxPrice" name="invoiceTaxPrice" value="{{ this.invoice.invoiceTaxPrice }}$">
+                            </div>
+                        </div>
+                    </td>
+                    <th scope="col">Total Price</th>
+                    <td scope="col">
+                        <input type="text" readonly class="form-control-plaintext text-center" id="invoicePriceWithTaxes" name="invoicePriceWithTaxes" value="{{ this.invoice.invoicePriceWithTaxes }}$">
+                    </td>
+                </tfoot>
                 <tfoot class="text-center border-bottom">
                     <td scope="col" colspan="1"></td>
                     <th scope="col">Total Quantity</th>
                     <td scope="col" colspan="1">
-                        <!-- <input type="text" readonly class="form-control-plaintext text-center" id="IContentTotalArticle" name="IContentTotalArticle" [ngModel]="this.totalArticles"> -->
+                        <input type="text" readonly class="form-control-plaintext text-center" id="totalQuantity" value="{{ this.invoice.invoiceTotalArticle }}">
                     </td>
                     <td scope="col" colspan="1"></td>
-                    <th scope="col">Total Price</th>
+                    <th scope="col">Price</th>
                     <td scope="col">
-                        <!-- <input type="text" readonly class="form-control-plaintext text-center" id="IContentTotalPrice" name="IContentTotalPrice" [ngModel]="this.totalPrice + '$'"> -->
+                        <input type="text" readonly class="form-control-plaintext text-center" id="totalPrice" value="{{ this.invoice.invoiceTotalPrice }}$">
                     </td>
                 </tfoot>
             </table>

@@ -5,5 +5,8 @@ export class InvoiceDto {
     UserId?: number;
     InvoiceTotalArticle?: number;
     InvoiceTotalPrice?: number;
+    InvoiceTaxPercent?: number;
+    InvoiceTaxPrice?: number;
+    InvoicePriceWithTaxes?: number;
     InvoiceContents?: {};
 }

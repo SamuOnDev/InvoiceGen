@@ -4,6 +4,7 @@ using InvoiceGenAPI.DataAcces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceGenAPI.Migrations
 {
     [DbContext(typeof(InvoiceGenDBContext))]
-    partial class InvoiceGenDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221018094606_fix 6")]
+    partial class fix6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,14 +122,11 @@ namespace InvoiceGenAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("InvoicePriceWithTaxes")
-                        .HasColumnType("real");
-
                     b.Property<int>("InvoiceTaxPercent")
                         .HasColumnType("int");
 
-                    b.Property<float>("InvoiceTaxPrice")
-                        .HasColumnType("real");
+                    b.Property<int>("InvoiceTaxPrice")
+                        .HasColumnType("int");
 
                     b.Property<int>("InvoiceTotalArticle")
                         .HasColumnType("int");

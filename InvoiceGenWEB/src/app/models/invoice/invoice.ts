@@ -7,5 +7,8 @@ export class Invoice {
     UserId?: number;
     InvoiceTotalArticle?: number;
     InvoiceTotalPrice?: number;
+    InvoiceTaxPercent?: number;
+    InvoiceTaxPrice?: number;
+    InvoicePriceWithTaxes?: number;
     InvoiceContents?: {};
 }

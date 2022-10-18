@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace InvoiceGenAPI.Models.DataModel
 {
@@ -14,6 +15,12 @@ namespace InvoiceGenAPI.Models.DataModel
         public int UserId { get; set; }
         public int InvoiceTotalArticle { get; set; }
         public float InvoiceTotalPrice { get; set; }
+        [DefaultValue(21)]
+        public int InvoiceTaxPercent { get; set; }
+        public float InvoiceTaxPrice { get; set; }
+        public float InvoicePriceWithTaxes { get; set; }
+
+
 
     }
 }
