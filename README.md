@@ -186,7 +186,7 @@ Para las cuales se han tomado las siguientes **consideraciones**:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
-## License
+## Licencia
 
 Distribuido bajo la licencia MIT. Consulte `LICENCIA` para obtener más información.
 
