@@ -6,6 +6,7 @@ using InvoiceGenAPI.Services.Companies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using System.Security.Claims;
 
 namespace InvoiceGenAPI.Controllers
 {
@@ -23,15 +24,24 @@ namespace InvoiceGenAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetCompanies")]
+        [Route("GetCompanies/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        public async Task<IActionResult> GetCompanies()
+        public async Task<IActionResult> GetCompanies(int id)
         {
-            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+            if (id == 0)
+            {
+                int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
-            List<Company> companies = _companiesService.GetCompaniesByUserId(tokenId);
+                List<Company> companies = _companiesService.GetCompaniesByUserId(tokenId);
 
-            return Ok(companies);
+                return Ok(companies);
+            }
+            else
+            {
+                List<Company> companies = _companiesService.GetCompaniesByUserId(id);
+
+                return Ok(companies);
+            }
         }
 
 
@@ -40,16 +50,30 @@ namespace InvoiceGenAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<ActionResult<Company>> GetCompanyById(int id)
         {
-            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+            string userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
-            var company = _companiesService.GetCompanyById(id, tokenId);
+            if (userRole != "Administrator")
+            {
+                int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
-            if (company == null)
+                Company company = _companiesService.GetCompanyById(id, tokenId);
+
+                if (company == null)
+                {
+                    return NotFound();
+                }
+
+                return company;
+            }
+
+            Company companyAdmin = _companiesService.GetCompanyByIdAdmin(id);
+
+            if (companyAdmin == null)
             {
                 return NotFound();
             }
 
-            return company;
+            return companyAdmin;
         }
 
         [HttpPut]
@@ -57,14 +81,27 @@ namespace InvoiceGenAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<IActionResult> PutCompany(Company company)
         {
-            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+            string userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
-            bool? updatedSucces = await _companiesService.UpdateCompanyByIdAsync(company, tokenId);
+            if (userRole != "Administrator")
+            {
+                int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
-            if (updatedSucces is null) { return NotFound("Company not found"); }
-            if (updatedSucces is false) { return BadRequest("Company not exist"); }
+                bool? updatedSucces = await _companiesService.UpdateCompanyByIdAsync(company, tokenId);
+
+                if (updatedSucces is null) { return NotFound("Company not found"); }
+                if (updatedSucces is false) { return BadRequest("Company not exist"); }
+
+                return Ok();
+            }
+
+            bool? updatedSuccesAdmin = await _companiesService.UpdateCompanyByIdAdminAsync(company);
+
+            if (updatedSuccesAdmin is null) { return NotFound("Company not found"); }
+            if (updatedSuccesAdmin is false) { return BadRequest("Company not exist"); }
 
             return Ok();
+
         }
 
         [HttpPost]
@@ -87,21 +124,38 @@ namespace InvoiceGenAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<IActionResult> DeleteCompany(int companyId)
         {
-            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+            string userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
-            Console.WriteLine(companyId);
-            bool? deleted = await _companiesService.DeleteCompanyByIdAsync(companyId, tokenId);
+            if (userRole != "Administrator")
+            {
+                int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
 
-            if (deleted is false)
+                bool? deleted = await _companiesService.DeleteCompanyByIdAsync(companyId, tokenId);
+
+                if (deleted is false)
+                {
+                    return BadRequest("Something went wrong company not deleted");
+                }
+                else if (deleted is null)
+                {
+                    return NotFound("Company not found");
+                }
+
+                return Ok();
+            }
+
+            bool? deletedAdmin = await _companiesService.DeleteCompanyByIdAdminAsync(companyId);
+
+            if (deletedAdmin is false)
             {
                 return BadRequest("Something went wrong company not deleted");
-            }else if(deleted is null){
+            }
+            else if (deletedAdmin is null)
+            {
                 return NotFound("Company not found");
             }
 
             return Ok();
-        }
-
-        
+        }        
     }
 }

@@ -9,5 +9,8 @@ namespace InvoiceGenAPI.Services.Companies
         Company GetCompanyById(int companyId, int tokenId);
         Task<bool?> UpdateCompanyByIdAsync(Company company, int userId);
         Task<bool?> DeleteCompanyByIdAsync(int companyId, int userId);
+        Company GetCompanyByIdAdmin(int companyId);
+        Task<bool?> UpdateCompanyByIdAdminAsync(Company company);
+        Task<bool?> DeleteCompanyByIdAdminAsync(int companyId);
     }
 }

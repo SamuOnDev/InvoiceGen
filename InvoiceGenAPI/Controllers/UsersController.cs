@@ -50,12 +50,17 @@ namespace InvoiceGenAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<IActionResult> PutUser(int id, UserEdit user)
         {
-            var passCheck = (from userCheck in _context.Users
-                           where userCheck.UserId.Equals(id) && userCheck.UserPassword.Equals(user.UserPassword)
-                           select userCheck).FirstOrDefault();
+            string userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
-            if (passCheck is null) { return BadRequest("Wrong password"); }
+            if (userRole != "Administrator")
+            {
+                var passCheck = (from userCheck in _context.Users
+                                 where userCheck.UserId.Equals(id) && userCheck.UserPassword.Equals(user.UserPassword)
+                                 select userCheck).FirstOrDefault();
 
+                if (passCheck is null) { return BadRequest("Wrong password"); }
+            }
+            
             bool? isUpdated = await _usersService.UpdateUserAsync(id, user);
 
             if (isUpdated is null) { return NotFound("User not found"); }
@@ -94,11 +99,16 @@ namespace InvoiceGenAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+            string uderRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
-            if (tokenId != id)
+            if (uderRole != "Administrator")
             {
-                return BadRequest("Users not match");
+                int tokenId = Int32.Parse(User.Claims.FirstOrDefault(c => c.Type == "Id").Value);
+
+                if (tokenId != id)
+                {
+                    return BadRequest("Users not match");
+                }
             }
 
             bool? deleted = await _usersService.DeleteUserByIdAsync(id);

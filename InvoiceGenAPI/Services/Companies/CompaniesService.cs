@@ -34,6 +34,17 @@ namespace InvoiceGenAPI.Services.Companies
             return companyFound;
         }
 
+        public Company GetCompanyByIdAdmin(int companyId)
+        {
+            Company? companyFound = (from company in _context.Companies
+                                     where company.CompanyId == companyId
+                                     select company).FirstOrDefault();
+
+            if (companyFound is null) return null;
+
+            return companyFound;
+        }
+
         public bool RegisterCompanyToDb(Company company, int tokenId)
         {
             company.UserId = tokenId;
@@ -86,6 +97,40 @@ namespace InvoiceGenAPI.Services.Companies
             return true;
         }
 
+        public async Task<bool?> UpdateCompanyByIdAdminAsync(Company company)
+        {
+            Company? companyToUpdate = (from compCheck in _context.Companies
+                                        where compCheck.CompanyId.Equals(company.CompanyId)
+                                        select compCheck).FirstOrDefault();
+
+            if (companyToUpdate is null) return null;
+
+            companyToUpdate.CompanyId = company.CompanyId;
+            companyToUpdate.CompanyName = company.CompanyName;
+            companyToUpdate.CompanyCif = company.CompanyCif;
+            companyToUpdate.CompanyEmail = company.CompanyEmail;
+            companyToUpdate.CompanyPhone = company.CompanyPhone;
+            companyToUpdate.CompanyAddress = company.CompanyAddress;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CompanyExists(company.CompanyId))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return true;
+        }
+
         public async Task<bool?> DeleteCompanyByIdAsync(int companyId, int userId)
         {
            
@@ -101,6 +146,23 @@ namespace InvoiceGenAPI.Services.Companies
 
                 return true;
             }
+
+            return false;
+        }
+
+        public async Task<bool?> DeleteCompanyByIdAdminAsync(int companyId)
+        {
+
+            Company? companyToDelete = _context.Companies.Find(companyId);
+
+            if (companyToDelete is null) return null;
+
+            _context.Companies.Remove(companyToDelete);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+            
 
             return false;
         }

@@ -25,13 +25,13 @@ export class CompanyService {
     return this.http.post<Company>(this.url + 'CreateCompany', company, httpHeaders);
   }
 
-  GetCompanies(auth_token: string): Observable<CompanyDto> {
+  GetCompanies(userId: number, auth_token: string): Observable<CompanyDto> {
     const httpHeaders = { headers:new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${auth_token}`
       }) 
     };
-    return this.http.get<CompanyDto>(this.url + 'GetCompanies/', httpHeaders);
+    return this.http.get<CompanyDto>(this.url + 'GetCompanies/' + userId, httpHeaders);
   }
 
   GetCompanyById(companyId: number, auth_token: string): Observable<CompanyDto> {

@@ -69,7 +69,7 @@ namespace InvoiceGenAPI.Services.Users
         public async Task<bool?> UpdateUserAsync(int id, UserEdit user)
         {
             var checkId = (from userCheck in _context.Users
-                             where userCheck.UserEmail.Equals(user.UserEmail)
+                             where userCheck.UserId.Equals(id)
                              select userCheck).FirstOrDefault();
 
             if (id != checkId.UserId)
@@ -77,8 +77,10 @@ namespace InvoiceGenAPI.Services.Users
                 return null;
             }
 
+            checkId.UserNickName = user.UserNickName;
             checkId.UserName = user.UserName;
             checkId.UserLast = user.UserLast;
+            checkId.UserEmail = user.UserEmail; 
             checkId.UserPhone = user.UserPhone;
 
             if (user.UserNewPassword != string.Empty)

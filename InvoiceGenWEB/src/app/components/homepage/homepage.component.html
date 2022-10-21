@@ -80,7 +80,8 @@
         <register></register>
     </div>
     <div *ngIf="IsUserAuthenticated() && !IsUserPanel() && !IsAdminPanel() && !IsCompaniesPanel() && !IsInvoicesPanel() && !IsCreateInvoicePanel()">
-        <userboard></userboard>
+        <!-- <userboard></userboard> -->
+        <useradministrator></useradministrator>
     </div>
     <div *ngIf="IsUserAuthenticated() && IsCompaniesPanel()">
         <companies></companies>

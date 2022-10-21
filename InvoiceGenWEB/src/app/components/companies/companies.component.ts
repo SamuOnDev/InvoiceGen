@@ -81,8 +81,9 @@ export class CompaniesComponent implements OnInit {
 
   GetCompanies(){
     const userToken = localStorage.getItem("jwt") as string;
+    const userId = 0;
 
-    this.companyService.GetCompanies(userToken).subscribe({
+    this.companyService.GetCompanies(userId, userToken).subscribe({
       next: (response) => {
         this.companies = response;
       }, 

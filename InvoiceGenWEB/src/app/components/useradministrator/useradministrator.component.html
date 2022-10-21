@@ -1,4 +1,4 @@
-<div class="userpanel">
+<div class="userpanel" *ngIf="!IsUserDetails() && !IsCompaniesDetails()">
     <h1 class="text-center">Users Administrator Panel  <!--<a class="btn btn-success my-auto btn-m">Create User</a>--> </h1>  
 
     <table class="table table-light table-striped table-hover">
@@ -10,7 +10,7 @@
                 <th scope="col" class="text-center">Lastname</th>
                 <th scope="col" class="text-center">Email</th>
                 <th scope="col" class="text-center">Phone</th>
-                <!-- <th scope="col" class="text-center"></th> -->
+                <th scope="col" class="text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -21,15 +21,346 @@
                 <td class="text-center">{{user.userLast}}</td>
                 <td class="text-center">{{user.userEmail}}</td>
                 <td class="text-center">{{user.userPhone}}</td>
-                <!-- <td class="text-center">
+                <td class="text-center">
                     <li class="list-inline-item">
-                        <a class="btn btn-secondary mx-1 btn-sm">Edit User</a>
+                        <a class="btn btn-secondary mx-1 btn-sm" (click)="GoToUserDetails(user.userId)">User Details</a>
                     </li>
                     <li class="list-inline-item">
-                        <a class="btn btn-danger mx-1 btn-sm">Delete User</a>
+                        <a class="btn btn-secondary mx-1 btn-sm" (click)="GoToCompaniesByUser(user.userId)">User Companies</a>
                     </li>
-                </td> -->
+                    <li class="list-inline-item">
+                        <a class="btn btn-secondary mx-1 btn-sm" (click)="GoToUserDetails(user.userId)">User Invoices</a>
+                    </li>
+                </td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<div class="userpanel mx-auto" *ngIf="IsUserDetails()">
+    <h1 class="text-center">User Panel</h1>
+    <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="staticNickname" class="col-sm-2 col-form-label">Nickname</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticNickname" value="{{ userInfo.userNickName}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-2 col-form-label">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticName" value="{{ userInfo.userName}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="staticLast" class="col-sm-2 col-form-label">Lastname:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticLast" value="{{ userInfo.userLast}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Email:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ userInfo.userEmail}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="staticPhone" class="col-sm-2 col-form-label">Phone:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticPhone" value="{{ userInfo.userPhone}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item"></li>
+    </ul>
+
+    <ul *ngIf="IsEdit()" class="list-group list-group-flush">
+        <li class="list-group-item">
+            <form>
+                <fieldset>
+                    <div class="form-group row">
+                        <label for="userNickname" class="col-sm-2 col-form-label">Nickname</label>
+                        <div class="col-sm-10">
+                            <input type="text"  class="form-control" id="userNickname" name="userNickname" [(ngModel)]="userInfo.userNickName" value="{{ userInfo.userNickName }}">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="userName" class="col-sm-2 col-form-label">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="userInfo.userName" value="{{ userInfo.userName}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="userLastname" class="col-sm-2 col-form-label">Lastname:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="userLastname" name="userLastname" [(ngModel)]="userInfo.userLast"  value="{{ userInfo.userLast}}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <fieldset>
+                    <div class="form-group row">
+                        <label for="userEmail" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="userEmail" name="userEmail" [(ngModel)]="userInfo.userEmail" value="{{ userInfo.userEmail}}">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="userPhone" class="col-sm-2 col-form-label">Phone:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="userPhone" name="userPhone" [(ngModel)]="userInfo.userPhone" value="{{ userInfo.userPhone }}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="userNewPassword" class="col-sm-2 col-form-label">New Password:<span [innerHTML]="htmlStr" [ngStyle]="myStyles"></span></label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" [ngClass]="{'is-valid' : validated == true, 'is-invalid' : validated == false, '': validated == null}"  id="userNewPassword" [(ngModel)]="userInfo.userPassword"  placeholder="New Password" (keyup)='Check(); NeedPassword();' [ngModelOptions]="{standalone: true}" >
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form>
+                <div class="form-group row">
+                    <label for="userconfirmPassword" class="col-sm-2 col-form-label">Confirm Password:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" [ngClass]="{'is-valid' : validated == true, 'is-invalid' : validated == false, '': validated == null}" id="userConfirmPassword" [(ngModel)]="ConfirmPassword" placeholder="Confirm Password" (keyup)='Check(); NeedPassword();' [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item"></li>
+    </ul>
+
+    <ul class="list-inline mr-auto ">
+        <li *ngIf="!IsEdit()" class="list-inline-item">
+            <a class="btn btn-secondary mx-1 btn-sm" (click)="EditUser()">Edit</a>
+        </li>
+        <li *ngIf="!IsEdit()" class="list-inline-item">
+            <a class="btn btn-warning mx-1 btn-sm" (click)="UserDetails()">Back</a>
+        </li>
+        <li  *ngIf="IsEdit()" class="list-inline-item">
+            <button class="btn btn-success mx-1 btn-sm" type="submit" [disabled]="!needPassword" (click)="SendUser()">Submit Changes</button>
+        </li>
+        <li  *ngIf="IsEdit()" class="list-inline-item">
+            <a class="btn btn-warning mx-1 btn-sm" (click)="EditUser()">Cancel</a>
+        </li>
+        <div class="d-grid gap-2 d-md-flex mt-4 justify-content-md-end ">
+            <li  *ngIf="IsEdit()" class="list-inline-item">
+                <a class="btn btn-outline-danger mx-1 btn-sm" (click)="DeleteUser()">Delete Account</a>
+            </li>
+        </div>
+    </ul>
+</div>
+
+<div class="companiesPanel" *ngIf="IsCompaniesDetails()">
+    <div *ngIf="!IsCompany()">
+        <h1 class="text-center">Companies Panel</h1>  
+
+        <table class="table table-light table-striped table-hover">
+            <thead>
+                <tr class="table-info">
+                    <th scope="col" class="text-center">Company Id</th>
+                    <th scope="col" class="text-center">Name</th>
+                    <th scope="col" class="text-center">Email</th>
+                    <th scope="col" class="text-center">Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  *ngFor="let company of companies" (click)="CompanyPanel(company.companyId)" class="pe-auto" style="cursor: pointer;">
+                    <th class="text-center">{{ company.companyId }}</th>
+                    <td class="text-center">{{ company.companyName }}</td>
+                    <td class="text-center">{{ company.companyEmail }}</td>
+                    <td class="text-center">{{ company.companyPhone }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="IsCompany()" class="company-data mx-auto">
+        <h1 class="text-center">Company Panel  <!--<a class="btn btn-success my-auto btn-m">New Company</a>--> </h1>
+        <ul *ngIf="!IsEdit()" class="list-group list-group-flush">
+            <li class="list-group-item">
+                <form>
+                    <div class="form-group row">
+                        <label for="companyId" class="col-sm-2 col-form-label">Company Id:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="companyId" value="{{ this.companyInfo.companyId }}">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <form>
+                    <div class="form-group row">
+                        <label for="companyName" class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="companyName" value="{{ this.companyInfo.companyName }}">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <form>
+                    <div class="form-group row">
+                        <label for="companyCIF" class="col-sm-2 col-form-label">CIF:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="companyCIF" value="{{ this.companyInfo.companyCif }}">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <form>
+                    <div class="form-group row">
+                        <label for="companyEmail" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="companyEmail" value="{{ this.companyInfo.companyEmail }}">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <form>
+                    <div class="form-group row">
+                        <label for="companyPhone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="companyPhone" value="{{ this.companyInfo.companyPhone }}">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <form>
+                    <div class="form-group row">
+                        <label for="companyAddress" class="col-sm-2 col-form-label">Address:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="companyAddress" value="{{ this.companyInfo.companyAddress }}">
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-group-item"></li>
+        </ul>
+        <ul class="list-inline mr-auto ">
+            <li *ngIf="!IsEdit()" class="list-inline-item">
+                <a class="btn btn-secondary mx-1 btn-sm" (click)="EditCompany()">Edit</a>
+            </li>
+            <li *ngIf="!IsEdit()" class="list-inline-item">
+                <a class="btn btn-warning mx-1 btn-sm" (click)="CompanyList()">Back</a>
+            </li>
+        </ul>
+
+        <form class="container form-register" #updateCompanyForm="ngForm" (ngSubmit)="UpdateCompanyById(updateCompanyForm)">
+            <!-- Company Edit -->
+            <ul *ngIf="IsEdit()" class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <fieldset disabled>
+                        <div class="form-group row">
+                            <label for="companyId" class="col-sm-2 col-form-label">Company Id:</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="disabledTextInput companyId" name="companyId" class="form-control" readonly [(ngModel)]="this.companyInfo.companyId">
+                            </div>
+                        </div>
+                    </fieldset>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group row">
+                        <label for="companyName" class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="companyName" name="companyName" class="form-control" [(ngModel)]="this.companyInfo.companyName">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group row">
+                        <label for="companyCif" class="col-sm-2 col-form-label">CIF:</label>
+                        <div class="col-sm-10">
+                            <input type="text"  id="companyCif" name="companyCif" class="form-control" [(ngModel)]="this.companyInfo.companyCif">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group row">
+                        <label for="companyEmail" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input type="text"  id="companyEmail" name="companyEmail" class="form-control" [(ngModel)]="this.companyInfo.companyEmail">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="form-group row">
+                        <label for="companyPhone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input type="text"  id="companyPhone" name="companyPhone" class="form-control" [(ngModel)]="this.companyInfo.companyPhone">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+            
+                    <div class="form-group row">
+                        <label for="companyAddress" class="col-sm-2 col-form-label">Address:</label>
+                        <div class="col-sm-10">
+                            <input type="text"  id="companyAddress" name="companyAddress" class="form-control" [(ngModel)]="this.companyInfo.companyAddress">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item"></li>
+            </ul>
+
+            <!-- Company Buttons -->
+            <ul class="list-inline mr-auto ">
+                <li  *ngIf="IsEdit()" class="list-inline-item">
+                    <button class="btn btn-success mx-1 btn-sm" type="submit">Submit Changes</button>
+                </li>
+                <li  *ngIf="IsEdit()" class="list-inline-item">
+                    <a class="btn btn-warning mx-1 btn-sm" (click)="EditCompany()">Cancel</a>
+                </li>
+                <div class="d-grid gap-2 d-md-flex mt-4 justify-content-md-end ">
+                    <li  *ngIf="IsEdit()" class="list-inline-item">
+                        <a class="btn btn-outline-danger mx-1 btn-sm" (click)="DeleteCompany()">Delete Company</a>
+                    </li>
+                </div>
+            </ul>
+        </form>
+    </div>
 </div>
